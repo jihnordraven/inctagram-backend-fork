@@ -27,15 +27,6 @@
       "compilerOptions": {
         "tsConfigPath": "apps/users-api/tsconfig.app.json"
       }
-    },
-    "test-api": {
-      "type": "application",
-      "root": "apps/test-api",
-      "entryFile": "main",
-      "sourceRoot": "apps/test-api/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/test-api/tsconfig.app.json"
-      }
     }
   }
 }
