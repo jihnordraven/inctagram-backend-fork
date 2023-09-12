@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model api_session {
+  id             String  @id(map: "PK_ad3408131778aa0903eeefb1d3e") @db.Uuid
+  ip             String  @db.VarChar
+  title          String  @db.VarChar
+  lastActiveDate String  @db.VarChar
+  refreshToken   String  @db.VarChar
+  userId         String? @db.Uuid
+  user           user?   @relation(fields: [userId], references: [id], onUpdate: NoAction, map: "FK_a3a33856d97a87f9db4bfcd2626")
+}
+
+model user {
+  id                String        @id(map: "PK_cace4a159ff9f2512dd42373760") @db.Uuid
+  login             String        @unique(map: "UQ_a62473490b3e4578fd683235c5e") @db.VarChar
+  email             String        @db.VarChar
+  password          String        @db.VarChar
+  createdAt         String        @db.VarChar
+  isConfirmed       Boolean
+  code              String?       @db.VarChar
+  codeDateOfExpiary String?       @db.VarChar
+  api_session       api_session[]
+}
