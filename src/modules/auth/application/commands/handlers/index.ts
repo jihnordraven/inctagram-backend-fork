@@ -1,0 +1,7 @@
+export * from './local-register.handler'
+export * from './confirm-email.handler'
+export * from './resend-confirm-email.handler'
+export * from './password-recovery.handler'
+export * from './new-password.handler'
+export * from './generate-tokens.handler'
+export * from './logout.handler'

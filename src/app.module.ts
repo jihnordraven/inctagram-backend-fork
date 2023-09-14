@@ -1,103 +1,86 @@
-import { Module } from "@nestjs/common";
-import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
-import { MongooseModule } from "@nestjs/mongoose";
-import { ConfigModule } from "@nestjs/config";
+import { Module } from '@nestjs/common'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { ConfigModule } from '@nestjs/config'
+import { UserService } from './modules/user/user.service'
+import { AuthModule } from './modules/auth/auth.module'
+import { JwtService } from '@nestjs/jwt'
+import { AuthController } from './modules/auth/auth.controller'
+import { AuthService } from './modules/auth/application/auth.service'
+import { MailerAdapter } from './adapters/mailer.adapter'
 
-import * as process from "process";
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
+import { APP_GUARD } from '@nestjs/core'
+import { CqrsModule } from '@nestjs/cqrs'
 
-import { Common } from "./common";
+import { ScheduleModule } from '@nestjs/schedule'
+import { UserRepository } from './modules/user/user.reposiroty'
+import { TestingService } from './testing/testing.service'
+import { TestingController } from './testing/testing.controller'
+import { PrismaModule } from 'prisma/prisma.module'
+import {
+	ConfirmEmailHandler,
+	GenerateTokensHandler,
+	LocalRegisterHandler,
+	LogoutHandler,
+	NewPasswordHandler,
+	PasswordRecoveryHandler,
+	ResendConfirmEmailHandler
+} from './modules/auth/application/commands/handlers'
+import { AuthRepository } from './modules/auth/repositories/auth.repository'
+import { Argon2Adapter } from './adapters/argon2.adapter'
+import { SessionModule } from './modules/session/session.module'
+import { AuthQueryRepository } from './modules/auth/repositories/auth-query.repository'
+import { SessionRepository } from './modules/session/session.repository'
+import { STRATEGIES } from './modules/auth/protection/strategies'
 
-import { UsersController } from "./users/users.controller";
-import { UsersService } from "./users/users.service";
-import { AuthModule } from "./auth/auth.module";
-import { JwtModule, JwtService } from "@nestjs/jwt";
-import { AuthController } from "./auth/auth.controller";
-import { AuthService } from "./auth/auth.service";
-import { EmailAdapter } from "./auth/email.adapter";
+const modules = [AuthModule, PrismaModule, SessionModule]
 
-import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
-import { APP_GUARD } from "@nestjs/core";
-import { SecurityDevicesRepository } from "./security.devices/security.devices.repository";
-import { SecurityDevicesService } from "./security.devices/security.devices.service";
-import { SecurityDevicesController } from "./security.devices/security.devices.controller";
+const services = [AppService, UserService, AuthService, JwtService, TestingService]
 
-import { SAUsersController } from "./users/sa.users.controller";
-import { CommandBus, CqrsModule } from "@nestjs/cqrs";
+const repositories = [
+	UserRepository,
+	AuthRepository,
+	AuthQueryRepository,
+	SessionRepository
+]
 
+const authCommandHandlers = [
+	LocalRegisterHandler,
+	ConfirmEmailHandler,
+	ResendConfirmEmailHandler,
+	PasswordRecoveryHandler,
+	NewPasswordHandler,
+	GenerateTokensHandler,
+	LogoutHandler
+]
 
-import {TypeOrmModule} from "@nestjs/typeorm";
-
-
-import { ScheduleModule } from "@nestjs/schedule";
-import { UsersRepository } from "./users/users.reposiroty";
-import { PrismaClient } from "@prisma/client";
-import { TestingService } from "./testing/testing.service";
-import { TestingController } from "./testing/testing.controller";
-const modules = [AuthModule]
-
-const services = [AppService, UsersService, AuthService,
-   JwtService, SecurityDevicesService, PrismaClient, TestingService]
-
-const repositories = [UsersRepository,
-   SecurityDevicesRepository]
-const useCases = []
-const commands = []
-
-
-
-
-const adapters = [EmailAdapter, Common]
-
+const adapters = [MailerAdapter, Argon2Adapter]
 
 @Module({
-  imports: [
-    CqrsModule,
-    JwtModule.register({secret: "123"}),
-    ThrottlerModule.forRoot({
-    ttl: 10,
-    limit: 500,
-    }),
-    ScheduleModule.forRoot(),
+	imports: [
+		CqrsModule,
+		ThrottlerModule.forRoot({
+			ttl: 10,
+			limit: 500
+		}),
+		ScheduleModule.forRoot(),
+		ConfigModule.forRoot({ isGlobal: true }),
+		...modules
+	],
 
-    ConfigModule.forRoot(),
-    /*TypeOrmModule.forRoot({
-      /!*type: 'postgres',
-      host: "lucky.db.elephantsql.com",
-      port: 5432,
-      username: 'tfaepjvr',
-      password: 'pbzw6dDdgwDXKcr5QzUU9qAwZyLdsoHo',
-      database: 'tfaepjvr',*!/
-      type: 'postgres',
-      /!*url : "postgres://laponovsemen:jb5zyBeHskM2@ep-floral-block-080205-pooler.eu-central-1.aws.neon.tech/neondb",
-      ssl : true,*!/
-      host: "localhost",
-      port: 5432,
-      username: 'postgres',
-      password: '2233',
-      database: 'postgres',
-      entities: [Blog, User, BlogBan, APIComment, APILike, APISession, APIPost, BloggerBansForSpecificBlog,
-        APIQuizQuestion, APIQuizQuestionAnswer, PairGameQuiz],
-      autoLoadEntities: true,
-      synchronize: true,
-    }),*/
-  ],
+	controllers: [AppController, AuthController, TestingController],
 
-  controllers: [AppController,SAUsersController, UsersController, AuthController,  SecurityDevicesController, TestingController],
-
-  providers: [...modules,
-    ...services,
-    ...repositories,
-    ...useCases,
-    ...commands,
-    ...adapters,
-    {
-      provide: APP_GUARD,
-      useClass: ThrottlerGuard
-    }]
+	providers: [
+		...services,
+		...repositories,
+		...authCommandHandlers,
+		...adapters,
+		...STRATEGIES,
+		{
+			provide: APP_GUARD,
+			useClass: ThrottlerGuard
+		}
+	]
 })
-
-
-export class AppModule {
-}
-
+export class AppModule {}

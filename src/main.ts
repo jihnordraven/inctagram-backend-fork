@@ -1,55 +1,45 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { BadRequestException, INestApplication, ValidationPipe } from "@nestjs/common";
-import { HttpExceptionFilter } from "./exception.filter";
-import { useContainer } from "class-validator";
-import cookieParser from "cookie-parser";
+import { NestFactory } from '@nestjs/core'
+import { AppModule } from './app.module'
+import { INestApplication, Logger, ValidationPipe } from '@nestjs/common'
+import { useContainer } from 'class-validator'
+import cookieParser from 'cookie-parser'
+import { blue, red } from 'colorette'
+import { ConfigService } from '@nestjs/config'
+import { StatusEnum } from 'src/helpers/enums'
+import { HttpExceptionFilter, validatePipeOptions } from 'src/helpers/error-handlers'
+import { swaggerSetup } from 'src/libs/swagger/swagger-setup'
 
-const appSettings = (app: INestApplication) => {
-  app.enableCors();
-  app.use(cookieParser())
-  app.useGlobalPipes(new ValidationPipe(
-      {
-        transform: true,
-        stopAtFirstError: true,
-        exceptionFactory: (errors) => {
-          const errorsForResponse = []
-          console.log(errors , 'ERRORS')
+const appSettings = async (logger: Logger): Promise<void> => {
+	const app = await NestFactory.create<INestApplication>(AppModule)
 
-          errors.forEach(e => {
-            const constrainedKeys = Object.keys(e.constraints)
-            //console.log(constrainedKeys, "constrainedKeys");
-            constrainedKeys.forEach((ckey) => {
-              errorsForResponse.push({
-                message : e.constraints[ckey],
-                field : e.property
-              })
-              console.log(errorsForResponse , "errorsForResponse");
+	app.setGlobalPrefix('api')
+	app.enableCors({ credentials: true })
+	app.use(cookieParser())
 
-            })
+	useContainer(app.select(AppModule), { fallbackOnErrors: true })
+	app.useGlobalPipes(new ValidationPipe(validatePipeOptions))
+	// app.useGlobalFilters(new HttpExceptionFilter())
 
-          })
-          throw new BadRequestException(errorsForResponse);
-        }
-      }
-    )
-  )
-  app.useGlobalFilters(new HttpExceptionFilter())
-  useContainer(app.select(AppModule), {fallbackOnErrors: true})
+	const config = app.get(ConfigService) as ConfigService
+
+	const PORT: string = config.get<string>('PORT')
+	const HOST: string = config.get<string>('HOST')
+	const STATUS: string = config.get<string>('STATUS')
+
+	if (STATUS !== StatusEnum.PRODUCTION) swaggerSetup(app)
+
+	await app.listen(PORT)
+
+	logger.log(blue(`Server is running on ${HOST}:${PORT} in status:${STATUS}`))
 }
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  appSettings(app)
-  /*const config = new DocumentBuilder()
-    .setTitle('social-network example')
-    .setDescription('The cats API description')
-    .setVersion('1.0')
-    .addTag('social-network')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('swagger', app, document);*/
 
-  await app.listen(8080);
+async function bootstrap(): Promise<void> {
+	const logger: Logger = new Logger(bootstrap.name)
+	try {
+		appSettings(logger)
+	} catch (err: unknown) {
+		logger.log(red(`Something went wrong... Learn more at: ${err}`))
+	}
 }
-bootstrap();
+
+bootstrap()
