@@ -41,6 +41,7 @@ import { AuthQueryRepository } from '../repositories/auth-query.repository'
 import { RegistrationDTO } from '../core/dtos/registration.dto'
 import { NewPasswordDTO, PasswordRecoveryDTO } from '../core/dtos'
 import { JwtEnum } from 'helpers/enums'
+import { SwaggerRegistrationType } from '../../../../../auth-microservice/swagger/auth/swagger-registration.type.type'
 
 @ApiTags('Auth endpoints')
 @Controller('auth')
@@ -55,6 +56,7 @@ export class AuthController {
 	@Public()
 	@Post('registration')
 	@HttpCode(HttpStatus.NO_CONTENT)
+	@SwaggerRegistrationType()
 	public async registration(@Body() dto: RegistrationDTO): Promise<void> {
 		await this.commandBus.execute(new LocalRegisterCommand(dto))
 	}

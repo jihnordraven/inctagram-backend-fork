@@ -24,5 +24,10 @@ export const CONFIG = {
 
 	// github oauth
 	GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
-	GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID
+	GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
+
+	// reds
+	REDIS_PASSWORD: process.env.REDIS_PASSWORD,
+	REDIS_HOST: process.env.REDIS_HOST,
+	REDIS_PORT: process.env.REDIS_PORT
 }

@@ -1,23 +1,18 @@
 import { Module } from '@nestjs/common'
 import { UserModule } from '../user/user.module'
-import { AuthController } from './controllers/auth.controller'
 import { AuthService } from './auth.service'
 import { CqrsModule } from '@nestjs/cqrs'
 import { SessionModule } from '../session/session.module'
 import { AuthRepository } from './repositories/auth.repository'
 import { AuthQueryRepository } from './repositories/auth-query.repository'
-import { AuthGoogleController } from './controllers/auth-google.controller'
-import { AuthGithubController } from './controllers/auth-github.controller'
-import { Argon2Adapter, MailerAdapter } from '../../adapters'
-
-const adapters = [MailerAdapter, Argon2Adapter]
-
-const controllers = [AuthController, AuthGoogleController, AuthGithubController]
+import { AUTH_CONTROLLERS } from './controllers'
+import { ADAPTERS } from '../../adapters'
+import { JwtModule } from '@nestjs/jwt'
 
 @Module({
 	imports: [CqrsModule, UserModule, SessionModule],
-	providers: [AuthService, AuthRepository, AuthQueryRepository, ...adapters],
-	controllers: [...controllers],
+	providers: [AuthService, AuthRepository, AuthQueryRepository, ...ADAPTERS],
+	controllers: [...AUTH_CONTROLLERS],
 	exports: [AuthService]
 })
 export class AuthModule {}

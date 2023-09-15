@@ -6,7 +6,7 @@ import { Github2Guard } from '../guards-handlers/guards/github2.guard'
 import { GithubRegisterDTO } from '../core/dtos'
 import { UserAgent } from 'apps/auth-microservice/src/decorators'
 import { JwtEnum } from 'helpers/enums'
-import { CONFIG } from 'apps/auth-microservice/src/config'
+import { CONFIG } from 'apps/auth-microservice/config'
 import { ApiTags } from '@nestjs/swagger'
 
 @ApiTags('Github oAuth')

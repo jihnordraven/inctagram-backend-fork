@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser'
 import { blue, red } from 'colorette'
 import { ConfigService } from '@nestjs/config'
 import { validatePipeOptions } from '../../../helpers/error-handlers'
-import { swaggerSetup } from './swagger/swagger-setup'
+import { swaggerSetup } from '../swagger/swagger-setup'
 import { StatusEnum } from '../../../helpers/enums'
 
 const appSettings = async (logger: Logger): Promise<void> => {

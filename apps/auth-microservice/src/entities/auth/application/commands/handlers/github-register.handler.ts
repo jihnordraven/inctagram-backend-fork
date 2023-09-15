@@ -5,7 +5,7 @@ import { AuthService } from '../../../auth.service'
 import { AuthRepository } from '../../../repositories/auth.repository'
 import { UserRepository } from '../../../../user/user.reposiroty'
 import { BadRequestException } from '@nestjs/common'
-import { CONFIG } from '../../../../../config'
+import { CONFIG } from '../../../../../../config'
 
 @CommandHandler(GithubRegisterCommand)
 export class GithubRegisterHandler implements ICommandHandler<GithubRegisterCommand> {

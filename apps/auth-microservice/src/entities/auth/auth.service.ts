@@ -14,6 +14,7 @@ import { GithubRegisterDTO, GoogleRegisterDTO } from './core/dtos'
 import { TokensType } from './application/commands/handlers'
 import { Response } from 'express'
 import { Argon2Adapter } from '../../adapters'
+import { Session } from 'inspector'
 
 @Injectable()
 export class AuthService {
