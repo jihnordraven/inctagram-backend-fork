@@ -1,0 +1,27 @@
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
+import { PasswordRecoveryCommand } from '../impl'
+import { UserRepository } from '../../../../user/user.reposiroty'
+import { User } from '@prisma/client'
+import { NotFoundException } from '@nestjs/common'
+import { AuthRepository } from '../../../repositories/auth.repository'
+import { MailerAdapter } from '../../../../../adapters'
+
+@CommandHandler(PasswordRecoveryCommand)
+export class PasswordRecoveryHandler implements ICommandHandler<PasswordRecoveryCommand> {
+	constructor(
+		protected readonly userRepository: UserRepository,
+		protected readonly authRepository: AuthRepository,
+		protected readonly mailerAdapter: MailerAdapter
+	) {}
+
+	public async execute({ dto: { email } }: PasswordRecoveryCommand): Promise<void> {
+		const user: User | null = await this.userRepository.findUserByEmail({ email })
+		if (!user) throw new NotFoundException('User not found')
+
+		const code: string = await this.authRepository.createEmailCode({
+			userID: user.id
+		})
+
+		await this.mailerAdapter.sendEmailCode({ email: user.email, code })
+	}
+}
