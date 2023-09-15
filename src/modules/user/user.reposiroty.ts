@@ -1,4 +1,9 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common'
+import {
+	Injectable,
+	InternalServerErrorException,
+	Logger,
+	NotFoundException
+} from '@nestjs/common'
 import { SkipThrottle } from '@nestjs/throttler'
 import { PrismaService } from 'prisma/prisma.service'
 import { User } from '@prisma/client'
@@ -26,7 +31,7 @@ export class UserRepository {
 	public async createUser(data: {
 		email: string
 		login: string
-		hashPassword: string
+		hashPassword?: string
 	}) {
 		const user: User | void = await this.prisma.user
 			.create({
@@ -69,94 +74,9 @@ export class UserRepository {
 		})
 	}
 
-	async findUserByLoginOrEmail(loginOrEmail: string, pass: string) {
-		const result = await this.prisma.user.findFirst({
-			where: {
-				OR: [{ login: loginOrEmail }, { email: loginOrEmail }]
-			}
-		})
-
-		console.log(result, ' result in findUserByLoginOrEmail')
-		if (!result) {
-			return null
-		}
-		return result
-	}
-
-	// async createUnconfirmedUser(login: string, password: string, email: string) {
-	// 	const code = this.common.createEmailSendCode()
-	// 	const newUnconfirmedUser = User.createUnconfirmedUser(
-	// 		login,
-	// 		password,
-	// 		email,
-	// 		code
-	// 	)
-
-	// 	const newlyCreatedUserQuery = await this.prisma.user.create({
-	// 		data: newUnconfirmedUser
-	// 	})
-	// 	return newlyCreatedUserQuery
-	// }
-
-	// async changeUsersConfirmationCode(id: string, confirmationCode: string) {
-	// 	const newCodeDateOfExpiary = addMinutes(new Date(), 30).toISOString()
-	// 	console.log(newCodeDateOfExpiary, '-><-')
-	// 	console.log(new Date().toISOString(), '-><-')
-	// 	console.log(addMinutes(new Date(), 30), '-><-')
-
-	// 	await this.prisma.user.update({
-	// 		where: { id },
-	// 		data: {
-	// 			code: confirmationCode,
-	// 			codeDateOfExpiary: newCodeDateOfExpiary
-	// 		}
-	// 	})
-	// }
-
-	// async findUserByRegistrationCode(code: string) {
-	// 	console.log(code, ' code in findUserByRegistrationCode')
-	// 	if (!code) {
-	// 		return null
-	// 	}
-	// 	const foundUser = await this.prisma.user.findFirst({
-	// 		where: {
-	// 			code
-	// 		}
-	// 	})
-
-	// 	return foundUser
-	// }
-
-	// async findUserCodeFreshness(foundUser: User) {
-	// 	return new Date().toISOString() < foundUser.codeDateOfExpiary!
-	// }
-
-	// async makeUserConfirmed(foundUser: User) {
-	// 	await this.prisma.user.update({
-	// 		where: { id: foundUser.id },
-	// 		data: {
-	// 			code: null,
-	// 			codeDateOfExpiary: null,
-	// 			isConfirmed: true
-	// 		}
-	// 	})
-	// }
-
-	async findUserByLogin(login: string) {
-		console.log(login, 'login in findUserById')
-		if (!login) {
-			return null
-		}
-
-		const result = await this.prisma.user.findFirst({
-			where: {
-				login
-			}
-		})
-		return result
-	}
-
-	async getAllUsersFromDBWithoutPagination() {
-		return this.prisma.user.findMany()
+	public async deleteUser({ userID }: { userID: string }): Promise<void> {
+		const user: User | null = await this.findUserById({ userID })
+		if (!user) throw new NotFoundException('User not found')
+		await this.prisma.user.delete({ where: { ...user } })
 	}
 }

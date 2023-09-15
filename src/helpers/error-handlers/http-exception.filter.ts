@@ -5,17 +5,15 @@ import { Request, Response } from 'express'
 export class HttpExceptionFilter implements ExceptionFilter {
 	catch(exception: HttpException, host: ArgumentsHost) {
 		const ctx = host.switchToHttp()
-		const response = ctx.getResponse<Response>()
-		const request = ctx.getRequest<Request>()
-		const status = exception.getStatus()
+		const response: Response = ctx.getResponse<Response>()
+		const request: Request = ctx.getRequest<Request>()
+		const status: number = exception.getStatus()
 
 		if (status === 400) {
 			let errorResponses = {
 				errorsMessages: []
 			}
 			const responseBody: any = exception.getResponse()
-			console.log(responseBody)
-
 			responseBody.message.forEach((item) =>
 				errorResponses.errorsMessages.push(item)
 			)

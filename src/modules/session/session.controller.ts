@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { AuthService } from '../auth/application/auth.service'
+import { AuthService } from '../auth/auth.service'
 
 @Controller('security/devices')
 export class SessionController {

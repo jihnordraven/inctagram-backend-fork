@@ -1,11 +1,11 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 import { UserRepository } from '../../../../user/user.reposiroty'
 import { ConflictException } from '@nestjs/common'
-import { Argon2Adapter } from 'src/adapters/argon2.adapter'
 import { User } from '@prisma/client'
-import { MailerAdapter } from 'src/adapters'
+import { MailerAdapter, Argon2Adapter } from '../../../../../adapters'
 import { AuthRepository } from '../../../../auth/repositories/auth.repository'
 import { LocalRegisterCommand } from '../impl'
+import { UserService } from '../../../../../modules/user/user.service'
 
 @CommandHandler(LocalRegisterCommand)
 export class LocalRegisterHandler implements ICommandHandler<LocalRegisterCommand> {
@@ -13,14 +13,21 @@ export class LocalRegisterHandler implements ICommandHandler<LocalRegisterComman
 		protected readonly userRepository: UserRepository,
 		protected readonly authRepository: AuthRepository,
 		protected readonly argon2Adapter: Argon2Adapter,
-		protected readonly mailerAdapter: MailerAdapter
+		protected readonly mailerAdapter: MailerAdapter,
+		protected readonly userService: UserService
 	) {}
 
 	async execute({ dto }: LocalRegisterCommand): Promise<void> {
-		const isEmailTaken: boolean = await this.userRepository.checkIsUniqueEmail({
+		const isUser: User | null = await this.userRepository.findUserByEmail({
 			email: dto.email
 		})
-		if (isEmailTaken)
+		if (isUser && !isUser.isConfirmed) {
+			const code: string = await this.authRepository.createEmailCode({
+				userID: isUser.id
+			})
+			await this.mailerAdapter.sendEmailCode({ email: isUser.email, code })
+		}
+		if (isUser)
 			throw new ConflictException({
 				message: 'User with this email is already registered',
 				field: 'email',
@@ -54,5 +61,7 @@ export class LocalRegisterHandler implements ICommandHandler<LocalRegisterComman
 		})
 
 		await this.mailerAdapter.sendEmailCode({ email: dto.email, code })
+
+		this.userService.createScheduledDeletion({ userID: user.id })
 	}
 }

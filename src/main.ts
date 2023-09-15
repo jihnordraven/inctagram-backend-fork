@@ -7,7 +7,7 @@ import { blue, red } from 'colorette'
 import { ConfigService } from '@nestjs/config'
 import { StatusEnum } from 'src/helpers/enums'
 import { HttpExceptionFilter, validatePipeOptions } from 'src/helpers/error-handlers'
-import { swaggerSetup } from 'src/libs/swagger/swagger-setup'
+import { swaggerSetup } from 'src/libs/static/swagger/swagger-setup'
 
 const appSettings = async (logger: Logger): Promise<void> => {
 	const app = await NestFactory.create<INestApplication>(AppModule)
@@ -30,7 +30,7 @@ const appSettings = async (logger: Logger): Promise<void> => {
 
 	await app.listen(PORT)
 
-	logger.log(blue(`Server is running on ${HOST}:${PORT} in status:${STATUS}`))
+	logger.log(blue(`Server is running on ${HOST} with status:${STATUS}`))
 }
 
 async function bootstrap(): Promise<void> {

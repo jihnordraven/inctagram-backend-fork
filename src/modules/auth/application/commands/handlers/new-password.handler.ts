@@ -27,16 +27,16 @@ export class NewPasswordHandler implements ICommandHandler<NewPasswordCommand> {
 
 		if (isCode.isUsed) throw new ForbiddenException('Token has already been used')
 
+		await this.authRepository.deactivateEmailCodeByCode({ code: isCode.code })
+
 		const isCodeExpired: boolean = Boolean(new Date(isCode.expiresIn) < new Date())
-		if (isCodeExpired) {
+		if (isCodeExpired)
 			dto.res.redirect(`${this.FRONTEND_HOST}/auth/expired?code=${isCode.code}`)
-		}
 
 		const newHashPassword: string = await this.argon2Adapter.hash({
 			password: dto.newPassword
 		})
 
-		await this.authRepository.deactivateEmailCodeByCode({ code: isCode.code })
 		await this.userRepository.newPassword({ userID: isCode.userID, newHashPassword })
 	}
 }

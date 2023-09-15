@@ -21,25 +21,25 @@ import {
 	NewPasswordCommand,
 	PasswordRecoveryCommand,
 	ResendConfirmEmailCommand
-} from './application/commands/impl'
+} from '../application/commands/impl'
 import { ApiTags } from '@nestjs/swagger'
-import { TokensType } from './application/commands/handlers'
-import { JwtAccessGuard, LocalGuard } from './protection/guards'
+import { TokensType } from '../application/commands/handlers'
+import { JwtAccessGuard, LocalGuard } from '../protection/guards'
 import {
 	JwtAccessPayloadDecorator,
 	JwtRefreshPayloadDecorator,
 	LocalAuthPayload,
 	UserAgent
-} from '../../decorators'
+} from '../../../decorators'
 import { JwtEnum } from 'src/helpers/enums'
 import { ConfigService } from '@nestjs/config'
 import { add } from 'date-fns'
-import { JwtRefreshGuard } from './protection/guards/jwt-refresh.guard'
-import { JwtAccessPayload, JwtRefreshPayload } from './protection/strategies'
-import { AuthService } from './application/auth.service'
-import { AuthQueryRepository } from './repositories/auth-query.repository'
-import { RegistrationDTO } from './core/dtos/registration.dto'
-import { NewPasswordDTO, PasswordRecoveryDTO } from './core/dtos'
+import { JwtRefreshGuard } from '../protection/guards/jwt-refresh.guard'
+import { JwtAccessPayload, JwtRefreshPayload } from '../protection/strategies'
+import { AuthService } from '../auth.service'
+import { AuthQueryRepository } from '../repositories/auth-query.repository'
+import { RegistrationDTO } from '../core/dtos/registration.dto'
+import { NewPasswordDTO, PasswordRecoveryDTO } from '../core/dtos'
 
 @ApiTags('Auth endpoints')
 @Controller('auth')

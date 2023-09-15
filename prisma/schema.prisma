@@ -16,10 +16,39 @@ model User {
   isConfirmed  Boolean  @default(false) @map("is_confirmed")
   isBlocked    Boolean  @default(false) @map("is_blocked")
 
-  Sessions   Session[]
-  EmailCodes EmailCode[]
+  Sessions      Session[]
+  EmailCodes    EmailCode[]
+  GoogleProfile GoogleProfile?
+  GithubProfile GithubProfile?
 
   @@map("users")
+}
+
+model GoogleProfile {
+  id          String  @id @unique @default(uuid())
+  providerID  String  @unique @map("provider_id")
+  name        String?
+  givenName   String? @map("given_name")
+  familyName  String? @map("family_name")
+  avatar      String?
+  email       String  @unique
+  isConfirmed Boolean @map("is_confirmed")
+  locale      String?
+  userID      String  @unique @map("user_id")
+  user        User    @relation(fields: [userID], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@map("google_profiles")
+}
+
+model GithubProfile {
+  id         String  @id @unique @default(uuid())
+  providerID String  @unique @map("provider_id")
+  email      String  @unique
+  avatar     String?
+  userID     String  @unique @map("user_id")
+  user       User    @relation(fields: [userID], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@map("github_profiles")
 }
 
 model EmailCode {
@@ -36,7 +65,7 @@ model EmailCode {
 model Session {
   id        String   @id @unique @default(uuid())
   userIP    String   @map("user_ip")
-  userAgent String   @map("user_agent") 
+  userAgent String   @map("user_agent")
   expiresIn DateTime @map("expires_in")
   userID    String   @map("user_id")
   user      User     @relation(fields: [userID], references: [id], onDelete: Cascade, onUpdate: NoAction)

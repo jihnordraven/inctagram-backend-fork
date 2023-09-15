@@ -4,6 +4,7 @@ import { AuthRepository } from 'src/modules/auth/repositories/auth.repository'
 import { EmailCode } from '@prisma/client'
 import { ConfigService } from '@nestjs/config'
 import { UserRepository } from 'src/modules/user/user.reposiroty'
+import { UserService } from 'src/modules/user/user.service'
 
 @CommandHandler(ConfirmEmailCommand)
 export class ConfirmEmailHandler implements ICommandHandler<ConfirmEmailCommand> {
@@ -12,6 +13,7 @@ export class ConfirmEmailHandler implements ICommandHandler<ConfirmEmailCommand>
 	constructor(
 		protected readonly authRepository: AuthRepository,
 		protected readonly userRepository: UserRepository,
+		protected readonly userService: UserService,
 		protected readonly config: ConfigService
 	) {}
 
@@ -20,7 +22,11 @@ export class ConfirmEmailHandler implements ICommandHandler<ConfirmEmailCommand>
 			code
 		})
 
+		if (!isCode) res.redirect(`${this.FRONTEND_HOST}/auth`)
+
 		if (isCode.isUsed) res.redirect(`${this.FRONTEND_HOST}`)
+
+		await this.authRepository.deactivateEmailCodeByCode({ code })
 
 		const isCodeExpired: boolean = Boolean(new Date(isCode.expiresIn) < new Date())
 		if (isCodeExpired) {
@@ -28,6 +34,8 @@ export class ConfirmEmailHandler implements ICommandHandler<ConfirmEmailCommand>
 		}
 
 		await this.userRepository.confirmUser({ userID: isCode.userID })
+		await this.userService.cancelScheduledDeletion({ userID: isCode.userID })
+
 		res.redirect(`${this.FRONTEND_HOST}/auth/confirmed`)
 	}
 }
