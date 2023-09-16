@@ -8,15 +8,17 @@ export class AppService {
 	constructor(private readonly prisma: PrismaService) {}
 
 	public async seedDB(): Promise<void> {
-		for (let i = 0; i < 3; i++) {
-			await this.prisma.user.create({
-				data: {
-					email: `${i}-mock@gmail.com`,
-					login: `${i}-mock-username`,
-					hashPassword: 'mock-password',
-					isConfirmed: true
-				}
-			})
+		if (CONFIG.STATUS !== StatusEnum.PRODUCTION) {
+			for (let i = 0; i < 3; i++) {
+				await this.prisma.user.create({
+					data: {
+						email: `${i}-mock@gmail.com`,
+						login: `${i}-mock-username`,
+						hashPassword: 'Password123%',
+						isConfirmed: true
+					}
+				})
+			}
 		}
 	}
 
