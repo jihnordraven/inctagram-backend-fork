@@ -28,7 +28,7 @@ const appSettings = async (logger: Logger): Promise<void> => {
 
 	if (STATUS !== StatusEnum.PRODUCTION) swaggerSetup(app)
 
-	await app.listen(PORT)
+	await app.listen(4200)
 
 	logger.log(blue(`Server is running on ${HOST} with status:${STATUS}`))
 }
