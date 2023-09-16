@@ -28,6 +28,8 @@ export const HelloPageHTML = ({ HOST }: { HOST: string }): string => {
                 align-items: center;
                 display: flex;
                 justify-content: space-between;
+                width: 80%;
+                margin: 0 auto;
             }
     
             main {
@@ -152,6 +154,7 @@ export const HelloPageHTML = ({ HOST }: { HOST: string }): string => {
                 background-color: #333; /* Темно-серый цвет */
                 color: white;
                 text-align: center;
+                height: 45px;
             }
         </style>
     </head>
