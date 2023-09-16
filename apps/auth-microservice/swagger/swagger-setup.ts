@@ -5,7 +5,7 @@ import { swaggerConfig } from './swagger-config'
 export const swaggerSetup = (app: INestApplication): void => {
 	const options = swaggerConfig.development
 	const document = SwaggerModule.createDocument(app, options)
-	SwaggerModule.setup('api/swagger', app, document, {
+	SwaggerModule.setup('api/swagger/auth', app, document, {
 		customCssUrl:
 			'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css',
 		customJs: [

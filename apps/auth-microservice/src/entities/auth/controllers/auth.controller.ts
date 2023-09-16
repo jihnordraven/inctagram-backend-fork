@@ -24,7 +24,7 @@ import {
 } from '../application/commands/impl'
 import { ApiTags } from '@nestjs/swagger'
 import { TokensType } from '../application/commands/handlers'
-import { JwtAccessGuard, LocalGuard } from '../guards-handlers/guards'
+import { LocalGuard } from '../guards-handlers/guards'
 import {
 	JwtAccessPayloadDecorator,
 	JwtRefreshPayloadDecorator,
@@ -41,7 +41,7 @@ import { AuthQueryRepository } from '../repositories/auth-query.repository'
 import { RegistrationDTO } from '../core/dtos/registration.dto'
 import { NewPasswordDTO, PasswordRecoveryDTO } from '../core/dtos'
 import { JwtEnum } from 'helpers/enums'
-import { SwaggerRegistrationType } from '../../../../../auth-microservice/swagger/auth/swagger-registration.type.type'
+import { SwaggerRegistrationType } from '../../../../swagger/types/auth/swagger-registration.type.type'
 
 @ApiTags('Auth endpoints')
 @Controller('auth')

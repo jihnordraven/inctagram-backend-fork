@@ -2,6 +2,8 @@ import { Controller, Get, HttpCode, HttpStatus, Post } from '@nestjs/common'
 import { AppService } from './app.service'
 import { ApiTags } from '@nestjs/swagger'
 import { Public } from './decorators'
+import { HelloPageHTML } from '../../../libs/static/templates/'
+import { CONFIG } from '../config'
 
 @ApiTags('Basic API')
 @Controller()
@@ -12,7 +14,7 @@ export class AppController {
 	@Get()
 	@HttpCode(HttpStatus.OK)
 	public test(): string {
-		return 'Server works with status 200. Learn more about API at /api/swagger'
+		return HelloPageHTML({ HOST: CONFIG.HOST })
 	}
 
 	@Public()
