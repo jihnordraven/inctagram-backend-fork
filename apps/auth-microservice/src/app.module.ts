@@ -12,7 +12,7 @@ import { CqrsModule } from '@nestjs/cqrs'
 
 import { ScheduleModule } from '@nestjs/schedule'
 import { UserRepository } from './entities/user/user.reposiroty'
-import { PrismaModule } from 'apps/auth-microservice/prisma/prisma.module'
+import { PrismaModule } from '../prisma/prisma.module'
 import {
 	ConfirmEmailHandler,
 	GenerateTokensHandler,
