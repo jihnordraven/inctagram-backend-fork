@@ -36,7 +36,7 @@ const appSettings = async (logger: Logger): Promise<void> => {
 async function bootstrap(): Promise<void> {
 	const logger: Logger = new Logger(bootstrap.name)
 	try {
-		appSettings(logger)
+		await appSettings(logger)
 	} catch (err: unknown) {
 		logger.log(red(`Something went wrong... Learn more at: ${err}`))
 	}
