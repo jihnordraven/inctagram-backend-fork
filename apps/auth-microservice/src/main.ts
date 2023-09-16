@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
-import { INestApplication, Logger, ValidationPipe } from '@nestjs/common'
+import { INestApplication, Logger, RequestMethod, ValidationPipe } from '@nestjs/common'
 import { useContainer } from 'class-validator'
 import cookieParser from 'cookie-parser'
 import { blue, red } from 'colorette'
@@ -12,7 +12,9 @@ import { StatusEnum } from '../../../helpers/enums'
 const appSettings = async (logger: Logger): Promise<void> => {
 	const app = await NestFactory.create<INestApplication>(AppModule)
 
-	app.setGlobalPrefix('api')
+	app.setGlobalPrefix('api', {
+		exclude: [{ path: '', method: RequestMethod.GET }]
+	})
 	app.enableCors({ credentials: true })
 	app.use(cookieParser())
 

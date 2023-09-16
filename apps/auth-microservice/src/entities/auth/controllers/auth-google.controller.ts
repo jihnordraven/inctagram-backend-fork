@@ -4,11 +4,12 @@ import { Request, Response } from 'express'
 import { GoogleRegisterDTO } from '../core/dtos/google-register.dto'
 import { AuthService } from '../auth.service'
 import { TokensType } from '../application/commands/handlers'
-import { CONFIG } from 'apps/auth-microservice/config'
-import { UserAgent } from 'apps/auth-microservice/src/decorators'
-import { JwtEnum } from 'helpers/enums'
+import { CONFIG } from '../../../../config'
+import { Public, UserAgent } from '../../../decorators'
+import { JwtEnum } from '../../../../../../helpers/enums'
 import { ApiTags } from '@nestjs/swagger'
 
+@Public()
 @ApiTags('Google oAuth')
 @Controller('auth/google')
 export class AuthGoogleController {

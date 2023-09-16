@@ -4,11 +4,12 @@ import { Response } from 'express'
 import { AuthService } from '../auth.service'
 import { Github2Guard } from '../guards-handlers/guards/github2.guard'
 import { GithubRegisterDTO } from '../core/dtos'
-import { UserAgent } from 'apps/auth-microservice/src/decorators'
+import { Public, UserAgent } from '../../../decorators'
 import { JwtEnum } from 'helpers/enums'
-import { CONFIG } from 'apps/auth-microservice/config'
+import { CONFIG } from '../../../../config'
 import { ApiTags } from '@nestjs/swagger'
 
+@Public()
 @ApiTags('Github oAuth')
 @Controller('auth/github')
 export class AuthGithubController {
