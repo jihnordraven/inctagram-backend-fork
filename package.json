@@ -6,8 +6,8 @@
 	"private": true,
 	"license": "UNLICENSED",
 	"scripts": {
-		"postinstall": "prisma generate",
-		"build": "prisma generate && nest build",
+		"postinstall": "prisma generate --schema=./apps/auth-microservice/prisma/schema.prisma",
+		"build": "prisma generate --schema=./apps/auth-microservice/prisma/schema.prisma && nest build",
 		"format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
 		"start": "nest start",
 		"dev": "nest start auth-microservice --watch",
