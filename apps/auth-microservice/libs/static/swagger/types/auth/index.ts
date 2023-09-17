@@ -17,6 +17,8 @@ export * from './swagger-new-tokens-type'
 export * from './swagger-email-confirm-type'
 export * from './swagger-logout-type'
 export * from './swagger-me-type'
+export * from './swagger-google-type'
+export * from './swagger-google-register-type'
 
 export const AUTH_SWAGGER = {
 	SwaggerLocalRegisterType,

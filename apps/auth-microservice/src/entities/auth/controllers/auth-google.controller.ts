@@ -17,10 +17,12 @@ import { AuthService } from '../auth.service'
 import { TokensType } from '../application/commands/handlers'
 import { Public, UserAgent } from '../../../decorators'
 import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger'
-import { CONFIG } from 'apps/auth-microservice/config'
-import { TokensEnum } from 'apps/auth-microservice/helpers/enums'
-import { SwaggerGoogleType } from 'apps/auth-microservice/libs/static/swagger/types/auth/swagger-google-type'
-import { SwaggerGoogleRegisterType } from 'apps/auth-microservice/libs/static/swagger/types/auth/swagger-google-register-type'
+import { CONFIG } from '../../../../config'
+import { TokensEnum } from '../../../../helpers/enums'
+import {
+	SwaggerGoogleRegisterType,
+	SwaggerGoogleType
+} from '../../../../libs/static/swagger/types/auth'
 
 @Public()
 @ApiTags('Google oAuth')
