@@ -95,12 +95,6 @@ export class AuthRepository {
 				data: {
 					providerID: dto.sub,
 					email: dto.email,
-					givenName: dto.given_name,
-					familyName: dto.family_name,
-					name: dto.name,
-					avatar: dto.picture,
-					isConfirmed: dto.email_verified,
-					locale: dto.locale,
 					userID
 				}
 			})
@@ -137,7 +131,6 @@ export class AuthRepository {
 				data: {
 					providerID: dto.node_id,
 					email: dto.email,
-					avatar: dto.avatar_url,
 					userID
 				}
 			})

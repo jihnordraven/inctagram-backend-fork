@@ -1,7 +1,5 @@
-import { redisStore } from 'cache-manager-redis-yet'
 import { CacheModule } from '@nestjs/cache-manager'
 import { Module } from '@nestjs/common'
-import { CONFIG } from 'apps/auth-microservice/config'
 import { memoryStore } from 'cache-manager'
 
 @Module({

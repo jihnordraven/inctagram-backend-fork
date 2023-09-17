@@ -8,13 +8,13 @@ import {
 import { Session } from '@prisma/client'
 import { red } from 'colorette'
 import { add } from 'date-fns'
-import { PrismaService } from 'apps/auth-microservice/prisma/prisma.service'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { Cache } from 'cache-manager'
+import { PrismaService } from '../../../prisma/prisma.service'
 
 @Injectable()
-export class SessionRepository {
-	private logger: Logger = new Logger(SessionRepository.name)
+export class SessionsRepository {
+	private logger: Logger = new Logger(SessionsRepository.name)
 
 	constructor(
 		private readonly prisma: PrismaService,

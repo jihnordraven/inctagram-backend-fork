@@ -4,10 +4,10 @@ import { Request, Response } from 'express'
 import { GoogleRegisterDTO } from '../core/dtos/google-register.dto'
 import { AuthService } from '../auth.service'
 import { TokensType } from '../application/commands/handlers'
-import { CONFIG } from '../../../../config'
 import { Public, UserAgent } from '../../../decorators'
-import { JwtEnum } from '../../../../../../helpers/enums'
 import { ApiTags } from '@nestjs/swagger'
+import { CONFIG } from 'apps/auth-microservice/libs/config'
+import { JwtEnum } from 'apps/auth-microservice/helpers/enums'
 
 @Public()
 @ApiTags('Google oAuth')

@@ -1,5 +1,4 @@
 import { ForbiddenException, Injectable } from '@nestjs/common'
-import { UserRepository } from '../user/user.reposiroty'
 import { ValidateUserType } from './guards-handlers/strategies/local.strategy'
 import { GithubProfile, GoogleProfile, User } from '@prisma/client'
 import { JwtRefreshPayload } from './guards-handlers/strategies'
@@ -14,18 +13,18 @@ import { GithubRegisterDTO, GoogleRegisterDTO } from './core/dtos'
 import { TokensType } from './application/commands/handlers'
 import { Response } from 'express'
 import { Argon2Adapter } from '../../adapters'
-import { Session } from 'inspector'
+import { UsersRepository } from '../users/users.reposiroty'
 
 @Injectable()
 export class AuthService {
 	constructor(
-		private readonly userRepository: UserRepository,
+		private readonly usersRepository: UsersRepository,
 		private readonly argon2Adapter: Argon2Adapter,
 		private readonly commandBus: CommandBus
 	) {}
 
 	public async validateUser(data: ValidateUserType): Promise<User | null> {
-		const user: User | null = await this.userRepository.findUserByEmail({
+		const user: User | null = await this.usersRepository.findUserByEmail({
 			email: data.email
 		})
 		if (!user) return null
@@ -96,7 +95,7 @@ export class AuthService {
 		let suffix: number = 1
 
 		do {
-			isUsernameTaken = await this.userRepository.findUserByLogin({
+			isUsernameTaken = await this.usersRepository.findUserByLogin({
 				login: uniqueUsername
 			})
 			if (isUsernameTaken) {

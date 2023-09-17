@@ -2,9 +2,9 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 import { ConfirmEmailCommand } from '../impl'
 import { EmailCode } from '@prisma/client'
 import { ConfigService } from '@nestjs/config'
-import { UserService } from '../../../../user/user.service'
-import { UserRepository } from '../../../../user/user.reposiroty'
 import { AuthRepository } from '../../../repositories/auth.repository'
+import { UsersService } from '../../../../users/users.service'
+import { UsersRepository } from '../../../../users/users.reposiroty'
 
 @CommandHandler(ConfirmEmailCommand)
 export class ConfirmEmailHandler implements ICommandHandler<ConfirmEmailCommand> {
@@ -12,8 +12,8 @@ export class ConfirmEmailHandler implements ICommandHandler<ConfirmEmailCommand>
 
 	constructor(
 		protected readonly authRepository: AuthRepository,
-		protected readonly userRepository: UserRepository,
-		protected readonly userService: UserService,
+		protected readonly usersRepository: UsersRepository,
+		protected readonly usersService: UsersService,
 		protected readonly config: ConfigService
 	) {}
 
@@ -33,8 +33,8 @@ export class ConfirmEmailHandler implements ICommandHandler<ConfirmEmailCommand>
 			res.redirect(`${this.FRONTEND_HOST}/auth/expired?code=${code}`)
 		}
 
-		await this.userRepository.confirmUser({ userID: isCode.userID })
-		await this.userService.cancelScheduledDeletion({ userID: isCode.userID })
+		await this.usersRepository.confirmUser({ userID: isCode.userID })
+		await this.usersService.cancelScheduledDeletion({ userID: isCode.userID })
 
 		res.redirect(`${this.FRONTEND_HOST}/auth/confirmed`)
 	}

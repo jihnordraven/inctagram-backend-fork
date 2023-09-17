@@ -40,8 +40,8 @@ import { AuthService } from '../auth.service'
 import { AuthQueryRepository } from '../repositories/auth-query.repository'
 import { RegistrationDTO } from '../core/dtos/registration.dto'
 import { NewPasswordDTO, PasswordRecoveryDTO } from '../core/dtos'
-import { JwtEnum } from 'helpers/enums'
-import { SwaggerRegistrationType } from '../../../../swagger/types/auth/swagger-registration.type.type'
+import { SwaggerRegistrationType } from 'apps/auth-microservice/libs/static/swagger/types/auth/swagger-registration.type.type'
+import { JwtEnum } from 'apps/auth-microservice/helpers/enums'
 
 @ApiTags('Auth endpoints')
 @Controller('auth')

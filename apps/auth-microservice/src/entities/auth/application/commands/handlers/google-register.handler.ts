@@ -3,13 +3,13 @@ import { GoogleRegisterCommand } from '../impl'
 import { GoogleProfile, User } from '@prisma/client'
 import { AuthService } from '../../../auth.service'
 import { AuthRepository } from '../../../repositories/auth.repository'
-import { UserRepository } from '../../../../user/user.reposiroty'
+import { UsersRepository } from '../../../../users/users.reposiroty'
 
 @CommandHandler(GoogleRegisterCommand)
 export class GoogleRegisterHandler implements ICommandHandler<GoogleRegisterCommand> {
 	constructor(
 		protected readonly authRepository: AuthRepository,
-		protected readonly userRepository: UserRepository,
+		protected readonly usersRepository: UsersRepository,
 		protected readonly authService: AuthService
 	) {}
 
@@ -21,7 +21,7 @@ export class GoogleRegisterHandler implements ICommandHandler<GoogleRegisterComm
 
 		if (isGoogleProfile) return isGoogleProfile
 
-		const isUser: User | null = await this.userRepository.findUserByEmail({
+		const isUser: User | null = await this.usersRepository.findUserByEmail({
 			email: dto.email
 		})
 
@@ -36,7 +36,7 @@ export class GoogleRegisterHandler implements ICommandHandler<GoogleRegisterComm
 			const uniqueUsername: string = await this.authService.genUniqueUsername({
 				prefix: 'google'
 			})
-			const newUser: User = await this.userRepository.createUser({
+			const newUser: User = await this.usersRepository.createUser({
 				email: dto.email,
 				login: uniqueUsername
 			})

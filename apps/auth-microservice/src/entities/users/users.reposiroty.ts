@@ -6,16 +6,16 @@ import {
 	NotFoundException
 } from '@nestjs/common'
 import { SkipThrottle } from '@nestjs/throttler'
-import { PrismaService } from 'apps/auth-microservice/prisma/prisma.service'
 import { User } from '@prisma/client'
 import { red } from 'colorette'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { Cache } from 'cache-manager'
+import { PrismaService } from '../../../prisma/prisma.service'
 
 @SkipThrottle()
 @Injectable()
-export class UserRepository {
-	private logger: Logger = new Logger(UserRepository.name)
+export class UsersRepository {
+	private logger: Logger = new Logger(UsersRepository.name)
 
 	constructor(
 		protected prisma: PrismaService,

@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 import { NewPasswordCommand } from '../impl'
-import { UserRepository } from '../../../../user/user.reposiroty'
+import { UsersRepository } from '../../../../users/users.reposiroty'
 import { EmailCode } from '@prisma/client'
 import { AuthRepository } from '../../../repositories/auth.repository'
 import { ForbiddenException, UnauthorizedException } from '@nestjs/common'
@@ -13,7 +13,7 @@ export class NewPasswordHandler implements ICommandHandler<NewPasswordCommand> {
 
 	constructor(
 		protected readonly authRepository: AuthRepository,
-		protected readonly userRepository: UserRepository,
+		protected readonly usersRepository: UsersRepository,
 		protected readonly config: ConfigService,
 		protected readonly argon2Adapter: Argon2Adapter
 	) {}
@@ -37,6 +37,6 @@ export class NewPasswordHandler implements ICommandHandler<NewPasswordCommand> {
 			password: dto.newPassword
 		})
 
-		await this.userRepository.newPassword({ userID: isCode.userID, newHashPassword })
+		await this.usersRepository.newPassword({ userID: isCode.userID, newHashPassword })
 	}
 }

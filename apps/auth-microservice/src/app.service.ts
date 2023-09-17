@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
-import { CONFIG } from '../config'
-import { StatusEnum } from '../../../helpers/enums'
+import { StatusEnum } from '../helpers/enums'
+import { CONFIG } from '../libs/config'
 
 @Injectable()
 export class AppService {

@@ -3,4 +3,4 @@ import { ApiTags } from '@nestjs/swagger'
 
 @ApiTags('Users endpoints')
 @Controller('users')
-export class UserController {}
+export class UsersController {}

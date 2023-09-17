@@ -3,15 +3,15 @@ import { GithubRegisterCommand } from '../impl'
 import { GithubProfile, User } from '@prisma/client'
 import { AuthService } from '../../../auth.service'
 import { AuthRepository } from '../../../repositories/auth.repository'
-import { UserRepository } from '../../../../user/user.reposiroty'
 import { BadRequestException } from '@nestjs/common'
-import { CONFIG } from '../../../../../../config'
+import { UsersRepository } from '../../../../users/users.reposiroty'
+import { CONFIG } from '../../../../../../libs/config'
 
 @CommandHandler(GithubRegisterCommand)
 export class GithubRegisterHandler implements ICommandHandler<GithubRegisterCommand> {
 	constructor(
 		private readonly authRepository: AuthRepository,
-		protected readonly userRepository: UserRepository,
+		protected readonly usersRepository: UsersRepository,
 		protected readonly authService: AuthService
 	) {}
 
@@ -28,7 +28,7 @@ export class GithubRegisterHandler implements ICommandHandler<GithubRegisterComm
 
 		if (isGithubProfile) return isGithubProfile
 
-		const isUser: User | null = await this.userRepository.findUserByEmail({
+		const isUser: User | null = await this.usersRepository.findUserByEmail({
 			email: dto.email
 		})
 
@@ -45,7 +45,7 @@ export class GithubRegisterHandler implements ICommandHandler<GithubRegisterComm
 				prefix: 'github'
 			})
 
-			const newUser: User = await this.userRepository.createUser({
+			const newUser: User = await this.usersRepository.createUser({
 				email: dto.email,
 				login: uniqueUsername
 			})

@@ -1,24 +1,24 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
-import { UserRepository } from '../../../../user/user.reposiroty'
 import { ConflictException } from '@nestjs/common'
 import { User } from '@prisma/client'
 import { MailerAdapter, Argon2Adapter } from '../../../../../adapters'
 import { AuthRepository } from '../../../repositories/auth.repository'
 import { LocalRegisterCommand } from '../impl'
-import { UserService } from '../../../../user/user.service'
+import { UsersRepository } from '../../../../users/users.reposiroty'
+import { UsersService } from '../../../../users/users.service'
 
 @CommandHandler(LocalRegisterCommand)
 export class LocalRegisterHandler implements ICommandHandler<LocalRegisterCommand> {
 	constructor(
-		protected readonly userRepository: UserRepository,
+		protected readonly usersRepository: UsersRepository,
 		protected readonly authRepository: AuthRepository,
 		protected readonly argon2Adapter: Argon2Adapter,
 		protected readonly mailerAdapter: MailerAdapter,
-		protected readonly userService: UserService
+		protected readonly usersService: UsersService
 	) {}
 
 	async execute({ dto }: LocalRegisterCommand): Promise<void> {
-		const isUser: User | null = await this.userRepository.findUserByEmail({
+		const isUser: User | null = await this.usersRepository.findUserByEmail({
 			email: dto.email
 		})
 		if (isUser && !isUser.isConfirmed) {
@@ -39,7 +39,7 @@ export class LocalRegisterHandler implements ICommandHandler<LocalRegisterComman
 				statusCode: 409
 			})
 
-		const isLoginTaken: User | null = await this.userRepository.findUserByLogin({
+		const isLoginTaken: User | null = await this.usersRepository.findUserByLogin({
 			login: dto.login
 		})
 		if (isLoginTaken)
@@ -54,7 +54,7 @@ export class LocalRegisterHandler implements ICommandHandler<LocalRegisterComman
 			password: dto.password
 		})
 
-		const user: User = await this.userRepository.createUser({
+		const user: User = await this.usersRepository.createUser({
 			email: dto.email,
 			login: dto.login,
 			hashPassword
@@ -66,6 +66,6 @@ export class LocalRegisterHandler implements ICommandHandler<LocalRegisterComman
 
 		await this.mailerAdapter.sendEmailCode({ email: dto.email, code })
 
-		this.userService.createScheduledDeletion({ userID: user.id })
+		this.usersService.createScheduledDeletion({ userID: user.id })
 	}
 }

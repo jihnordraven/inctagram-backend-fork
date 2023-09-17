@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { SessionRepository } from './session.repository'
+import { SessionsRepository } from './sessions.repository'
 import { Session } from '@prisma/client'
 
 @Injectable()
-export class SessionService {
-	constructor(private readonly sessionRepository: SessionRepository) {}
+export class SessionsService {
+	constructor(private readonly sessionRepository: SessionsRepository) {}
 
 	public async validateSession({
 		sessionID,

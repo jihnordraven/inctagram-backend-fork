@@ -3,8 +3,8 @@ import {
 	EmailPattern,
 	LoginPattern,
 	PasswordPattern
-} from '../../../../../../../helpers/patterns'
-import { TrimValidate } from '../../../../../../../helpers/validations'
+} from '../../../../../helpers/patterns'
+import { TrimValidate } from '../../../../../helpers/validations'
 import { ApiProperty } from '@nestjs/swagger'
 
 export class RegistrationDTO {

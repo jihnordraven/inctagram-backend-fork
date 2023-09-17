@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common'
-import { UserRepository } from './user.reposiroty'
+import { UsersRepository } from './users.reposiroty'
 import { User } from '@prisma/client'
 import * as schedule from 'node-schedule'
 
 @Injectable()
-export class UserService {
+export class UsersService {
 	private scheduledJobs: Record<string, schedule.Job> = {}
 
-	constructor(private readonly userRepository: UserRepository) {}
+	constructor(private readonly usersRepository: UsersRepository) {}
 
 	public async createScheduledDeletion({
 		userID
 	}: {
 		userID: string
 	}): Promise<void | null> {
-		const user: User = await this.userRepository.findUserById({ userID })
+		const user: User = await this.usersRepository.findUserById({ userID })
 		if (user.isConfirmed) {
 			return null
 		} else {
@@ -23,7 +23,7 @@ export class UserService {
 			const scheduledJob: schedule.Job = schedule.scheduleJob(
 				new Date(Date.now() + delay),
 				async (): Promise<void> => {
-					await this.userRepository.deleteUser({ userID })
+					await this.usersRepository.deleteUser({ userID })
 				}
 			)
 			this.scheduledJobs[userID] = scheduledJob

@@ -4,7 +4,7 @@ import { EmailCode, User } from '@prisma/client'
 import { AuthRepository } from '../../../repositories/auth.repository'
 import { NotFoundException } from '@nestjs/common'
 import { MailerAdapter } from '../../../../../adapters'
-import { UserRepository } from '../../../../user/user.reposiroty'
+import { UsersRepository } from '../../../../users/users.reposiroty'
 
 @CommandHandler(ResendConfirmEmailCommand)
 export class ResendConfirmEmailHandler
@@ -12,7 +12,7 @@ export class ResendConfirmEmailHandler
 {
 	constructor(
 		protected readonly authRepository: AuthRepository,
-		protected readonly userRepository: UserRepository,
+		protected readonly userRepository: UsersRepository,
 		protected readonly mailerAdapter: MailerAdapter
 	) {}
 

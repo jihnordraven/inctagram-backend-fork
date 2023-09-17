@@ -2,14 +2,14 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 import { LogoutCommand } from '../impl'
 import { Session } from '@prisma/client'
 import { ForbiddenException, NotFoundException } from '@nestjs/common'
-import { SessionRepository } from '../../../../session/session.repository'
+import { SessionsRepository } from '../../../../sessions/sessions.repository'
 
 @CommandHandler(LogoutCommand)
 export class LogoutHandler implements ICommandHandler<LogoutCommand> {
-	constructor(protected readonly sessionRepository: SessionRepository) {}
+	constructor(protected readonly sessionsRepository: SessionsRepository) {}
 
 	public async execute({ dto }: LogoutCommand): Promise<void> {
-		const session: Session | null = await this.sessionRepository.findSessionByID({
+		const session: Session | null = await this.sessionsRepository.findSessionByID({
 			sessionID: dto.sessionID
 		})
 
@@ -17,6 +17,6 @@ export class LogoutHandler implements ICommandHandler<LogoutCommand> {
 
 		if (dto.userID !== session.userID) throw new ForbiddenException()
 
-		await this.sessionRepository.deleteSessionByID({ sessionID: dto.sessionID })
+		await this.sessionsRepository.deleteSessionByID({ sessionID: dto.sessionID })
 	}
 }

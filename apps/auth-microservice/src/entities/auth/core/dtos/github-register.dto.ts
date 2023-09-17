@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { EmailPattern } from '../../../../../helpers/patterns'
 import { IsNotEmpty, IsOptional, Matches } from 'class-validator'
-import { EmailPattern } from 'helpers/patterns'
 
 export class GithubRegisterDTO {
 	@ApiProperty()

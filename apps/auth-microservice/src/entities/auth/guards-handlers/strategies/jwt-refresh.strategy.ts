@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
+import { JwtEnum } from 'apps/auth-microservice/helpers/enums'
 import { Request } from 'express'
-import { JwtEnum } from 'helpers/enums'
 import { Strategy } from 'passport-jwt'
-import { SessionService } from '../../../session/session.service'
-import { CONFIG } from 'apps/auth-microservice/config'
+import { SessionsService } from '../../../sessions/sessions.service'
+import { CONFIG } from 'apps/auth-microservice/libs/config'
 
 const RefreshCookieExtractor = (req: Request): string => {
 	let token: null | string = null
@@ -22,7 +22,7 @@ export type JwtRefreshPayload = {
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
-	constructor(private readonly sessionService: SessionService) {
+	constructor(private readonly sessionService: SessionsService) {
 		super({
 			jwtFromRequest: RefreshCookieExtractor,
 			secretOrKey: CONFIG.JWT_REFRESH_SECRET,

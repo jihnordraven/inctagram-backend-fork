@@ -5,9 +5,9 @@ import { useContainer } from 'class-validator'
 import cookieParser from 'cookie-parser'
 import { blue, red } from 'colorette'
 import { ConfigService } from '@nestjs/config'
-import { validatePipeOptions } from '../../../helpers/error-handlers'
-import { swaggerSetup } from '../swagger/swagger-setup'
-import { StatusEnum } from '../../../helpers/enums'
+import { validatePipeOptions } from '../helpers/error-handlers'
+import { swaggerSetup } from '../libs/static/swagger/swagger-setup'
+import { StatusEnum } from '../helpers/enums'
 
 const appSettings = async (logger: Logger): Promise<void> => {
 	const app = await NestFactory.create<INestApplication>(AppModule)
