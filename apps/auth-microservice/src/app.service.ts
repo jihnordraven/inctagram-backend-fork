@@ -28,17 +28,16 @@ export class AppService {
 		if (table.trim() && !isProduction) {
 			await this.prisma[table].deleteMany()
 			return
-		} else if (isProduction)
-			if (!isProduction) {
-				await this.prisma.user.deleteMany()
-				await this.prisma.session.deleteMany()
-				await this.prisma.emailCode.deleteMany()
-				await this.prisma.googleProfile.deleteMany()
-				await this.prisma.githubProfile.deleteMany()
-			} else {
-				throw new ForbiddenException(
-					'This endpoint is only available in developmenr or staging status'
-				)
-			}
+		} else if (!isProduction) {
+			await this.prisma.user.deleteMany()
+			await this.prisma.session.deleteMany()
+			await this.prisma.emailCode.deleteMany()
+			await this.prisma.googleProfile.deleteMany()
+			await this.prisma.githubProfile.deleteMany()
+		} else {
+			throw new ForbiddenException(
+				'This endpoint is only available in developmenr or staging status'
+			)
+		}
 	}
 }
