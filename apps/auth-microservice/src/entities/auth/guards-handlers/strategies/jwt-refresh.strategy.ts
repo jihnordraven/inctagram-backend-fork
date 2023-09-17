@@ -4,7 +4,7 @@ import { JwtEnum } from 'apps/auth-microservice/helpers/enums'
 import { Request } from 'express'
 import { Strategy } from 'passport-jwt'
 import { SessionsService } from '../../../sessions/sessions.service'
-import { CONFIG } from 'apps/auth-microservice/libs/config'
+import { CONFIG } from 'apps/auth-microservice/config'
 
 const RefreshCookieExtractor = (req: Request): string => {
 	let token: null | string = null

@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt'
 import { ConfigService } from '@nestjs/config'
 import { Session } from '@prisma/client'
 import { SessionsRepository } from '../../../../sessions/sessions.repository'
-import { CONFIG } from 'apps/auth-microservice/libs/config'
+import { CONFIG } from 'apps/auth-microservice/config'
 
 export type TokensType = {
 	readonly accessToken: string

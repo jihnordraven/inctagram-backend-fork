@@ -6,7 +6,7 @@ import { Github2Guard } from '../guards-handlers/guards/github2.guard'
 import { GithubRegisterDTO } from '../core/dtos'
 import { Public, UserAgent } from '../../../decorators'
 import { ApiTags } from '@nestjs/swagger'
-import { CONFIG } from 'apps/auth-microservice/libs/config'
+import { CONFIG } from 'apps/auth-microservice/config'
 import { JwtEnum } from 'apps/auth-microservice/helpers/enums'
 
 @Public()

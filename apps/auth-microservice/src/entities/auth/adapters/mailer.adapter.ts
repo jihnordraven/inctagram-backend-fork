@@ -1,4 +1,4 @@
-import { CONFIG } from '../../../../libs/config'
+import { CONFIG } from '../../../../config'
 import { emailConfirmHTML, passwordRecoveryHTML } from '../../../../libs/static/templates'
 import { SendMailOptions, Transporter, createTransport } from 'nodemailer'
 

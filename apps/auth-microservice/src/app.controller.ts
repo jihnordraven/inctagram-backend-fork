@@ -2,7 +2,7 @@ import { Controller, Get, HttpCode, HttpStatus, Post, Query } from '@nestjs/comm
 import { AppService } from './app.service'
 import { ApiTags } from '@nestjs/swagger'
 import { HelloPageHTML } from '../libs/static/templates'
-import { CONFIG } from '../libs/config'
+import { CONFIG } from '../config'
 import { Public } from './decorators'
 
 @ApiTags('Basic API')

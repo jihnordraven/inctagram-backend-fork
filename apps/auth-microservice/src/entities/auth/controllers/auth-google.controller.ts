@@ -6,7 +6,7 @@ import { AuthService } from '../auth.service'
 import { TokensType } from '../application/commands/handlers'
 import { Public, UserAgent } from '../../../decorators'
 import { ApiTags } from '@nestjs/swagger'
-import { CONFIG } from 'apps/auth-microservice/libs/config'
+import { CONFIG } from 'apps/auth-microservice/config'
 import { JwtEnum } from 'apps/auth-microservice/helpers/enums'
 
 @Public()
