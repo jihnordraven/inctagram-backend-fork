@@ -40,8 +40,8 @@ import { AuthService } from '../auth.service'
 import { AuthQueryRepository } from '../repositories/auth-query.repository'
 import { RegistrationDTO } from '../core/dtos/registration.dto'
 import { NewPasswordDTO, PasswordRecoveryDTO } from '../core/dtos'
-import { SwaggerRegistrationType } from 'apps/auth-microservice/libs/static/swagger/types/auth/swagger-registration.type.type'
-import { JwtEnum } from 'apps/auth-microservice/helpers/enums'
+import { SwaggerLocalRegisterType } from '../../../../libs/static/swagger/types/auth/swagger-local-register-type'
+import { JwtEnum } from '../../../../helpers/enums'
 
 @ApiTags('Auth endpoints')
 @Controller('auth')
@@ -56,7 +56,7 @@ export class AuthController {
 	@Public()
 	@Post('registration')
 	@HttpCode(HttpStatus.NO_CONTENT)
-	@SwaggerRegistrationType()
+	@SwaggerLocalRegisterType()
 	public async registration(@Body() dto: RegistrationDTO): Promise<void> {
 		await this.commandBus.execute(new LocalRegisterCommand(dto))
 	}

@@ -1,7 +1,7 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common'
 import { ApiOperation, ApiResponse } from '@nestjs/swagger'
 
-export const SwaggerRegistrationType = (): MethodDecorator => {
+export const SwaggerLocalRegisterType = (): MethodDecorator => {
 	return applyDecorators(
 		ApiOperation({ summary: 'User registration' }),
 		ApiResponse({
