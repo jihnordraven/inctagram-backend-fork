@@ -3,7 +3,7 @@ import { PasswordRecoveryCommand } from '../impl'
 import { User } from '@prisma/client'
 import { NotFoundException } from '@nestjs/common'
 import { AuthRepository } from '../../../repositories/auth.repository'
-import { MailerAdapter } from '../../../../../adapters'
+import { MailerAdapter } from '../../../adapters'
 import { UsersRepository } from '../../../../users/users.reposiroty'
 
 @CommandHandler(PasswordRecoveryCommand)

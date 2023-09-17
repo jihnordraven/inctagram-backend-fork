@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id        String   @id @unique @default(uuid())
+  id           String   @id @unique @default(uuid())
   login        String   @unique
   email        String   @unique
   hashPassword String?  @map("hash_password")
@@ -36,7 +36,7 @@ model EmailCode {
 }
 
 model GithubProfile {
-  id        String   @id @unique @default(uuid())
+  id         String @id @unique @default(uuid())
   providerID String @unique @map("provider_id")
   email      String @unique
   userID     String @unique @map("user_ID")
@@ -46,7 +46,7 @@ model GithubProfile {
 }
 
 model GoogleProfile {
-  id        String   @id @unique @default(uuid())
+  id         String @id @unique @default(uuid())
   providerID String @unique @map("provider_id")
   email      String @unique
   userID     String @unique @map("user_id")

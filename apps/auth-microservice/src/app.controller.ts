@@ -1,9 +1,9 @@
-import { Controller, Get, HttpCode, HttpStatus, Post } from '@nestjs/common'
+import { Controller, Get, HttpCode, HttpStatus, Post, Query } from '@nestjs/common'
 import { AppService } from './app.service'
 import { ApiTags } from '@nestjs/swagger'
-import { Public } from './decorators'
 import { HelloPageHTML } from '../libs/static/templates'
 import { CONFIG } from '../libs/config'
+import { Public } from './decorators'
 
 @ApiTags('Basic API')
 @Controller()
@@ -27,7 +27,7 @@ export class AppController {
 	@Public()
 	@Post('db/truncate')
 	@HttpCode(HttpStatus.NO_CONTENT)
-	public async truncateDB(): Promise<void> {
-		await this.appService.truncateDB()
+	public async truncateDB(@Query('table') table: string): Promise<void> {
+		await this.appService.truncateDB(table)
 	}
 }

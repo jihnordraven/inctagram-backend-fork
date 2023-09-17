@@ -14,7 +14,6 @@ import { AuthRepository } from './entities/auth/repositories/auth.repository'
 import { AuthQueryRepository } from './entities/auth/repositories/auth-query.repository'
 import { STRATEGIES } from './entities/auth/guards-handlers/strategies'
 import { JwtAccessGuard } from './entities/auth/guards-handlers/guards'
-import { ADAPTERS } from './adapters'
 import { JwtModule } from '@nestjs/jwt'
 import { MODULE_PROVIDERS } from './modules'
 import { SessionsModule } from './entities/sessions/sessions.module'
@@ -23,6 +22,7 @@ import { PrismaModule } from '../prisma/prisma.module'
 import { UsersRepository } from './entities/users/users.reposiroty'
 import { SessionsRepository } from './entities/sessions/sessions.repository'
 import { AUTH_COMMANDS_HANDLERS } from './entities/auth/application/commands/handlers'
+import { AUTH_ADAPTERS } from './entities/auth/adapters'
 
 const modules = [AuthModule, PrismaModule, SessionsModule, JwtModule]
 
@@ -48,7 +48,7 @@ const repositories = [
 		...services,
 		...repositories,
 		...AUTH_COMMANDS_HANDLERS,
-		...ADAPTERS,
+		...AUTH_ADAPTERS,
 		...STRATEGIES,
 		{
 			provide: APP_GUARD,

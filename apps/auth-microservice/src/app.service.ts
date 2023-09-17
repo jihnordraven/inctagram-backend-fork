@@ -22,17 +22,23 @@ export class AppService {
 		}
 	}
 
-	public async truncateDB(): Promise<void> {
-		if (CONFIG.STATUS !== StatusEnum.PRODUCTION) {
-			await this.prisma.user.deleteMany()
-			await this.prisma.session.deleteMany()
-			await this.prisma.emailCode.deleteMany()
-			await this.prisma.googleProfile.deleteMany()
-			await this.prisma.githubProfile.deleteMany()
-		} else {
-			throw new ForbiddenException(
-				'This endpoint is only available in developmenr or staging status'
-			)
-		}
+	public async truncateDB(table: string): Promise<void> {
+		const isProduction: boolean = Boolean(CONFIG.STATUS === StatusEnum.PRODUCTION)
+
+		if (table.trim() && !isProduction) {
+			await this.prisma[table].deleteMany()
+			return
+		} else if (isProduction)
+			if (!isProduction) {
+				await this.prisma.user.deleteMany()
+				await this.prisma.session.deleteMany()
+				await this.prisma.emailCode.deleteMany()
+				await this.prisma.googleProfile.deleteMany()
+				await this.prisma.githubProfile.deleteMany()
+			} else {
+				throw new ForbiddenException(
+					'This endpoint is only available in developmenr or staging status'
+				)
+			}
 	}
 }

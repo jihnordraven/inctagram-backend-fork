@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 import { ConflictException } from '@nestjs/common'
 import { User } from '@prisma/client'
-import { MailerAdapter, Argon2Adapter } from '../../../../../adapters'
+import { MailerAdapter, Argon2Adapter } from '../../../adapters'
 import { AuthRepository } from '../../../repositories/auth.repository'
 import { LocalRegisterCommand } from '../impl'
 import { UsersRepository } from '../../../../users/users.reposiroty'

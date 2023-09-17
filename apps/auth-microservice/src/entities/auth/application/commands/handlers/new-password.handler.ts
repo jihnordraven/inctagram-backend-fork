@@ -5,7 +5,7 @@ import { EmailCode } from '@prisma/client'
 import { AuthRepository } from '../../../repositories/auth.repository'
 import { ForbiddenException, UnauthorizedException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { Argon2Adapter } from '../../../../../adapters/argon2.adapter'
+import { Argon2Adapter } from '../../../adapters'
 
 @CommandHandler(NewPasswordCommand)
 export class NewPasswordHandler implements ICommandHandler<NewPasswordCommand> {

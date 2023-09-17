@@ -12,7 +12,7 @@ import {
 import { GithubRegisterDTO, GoogleRegisterDTO } from './core/dtos'
 import { TokensType } from './application/commands/handlers'
 import { Response } from 'express'
-import { Argon2Adapter } from '../../adapters'
+import { Argon2Adapter } from './adapters'
 import { UsersRepository } from '../users/users.reposiroty'
 
 @Injectable()
