@@ -5,9 +5,9 @@ import { AuthService } from '../auth.service'
 import { Github2Guard } from '../guards-handlers/guards/github2.guard'
 import { GithubRegisterDTO } from '../core/dtos'
 import { Public, UserAgent } from '../../../decorators'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger'
 import { CONFIG } from 'apps/auth-microservice/config'
-import { JwtEnum } from 'apps/auth-microservice/helpers/enums'
+import { TokensEnum } from 'apps/auth-microservice/helpers/enums'
 
 @Public()
 @ApiTags('Github oAuth')
@@ -21,6 +21,7 @@ export class AuthGithubController {
 
 	@Get('callback')
 	@UseGuards(Github2Guard)
+	@ApiExcludeEndpoint()
 	public githubCallback(): void {}
 
 	@Post('register')
@@ -40,7 +41,7 @@ export class AuthGithubController {
 
 	// helpers
 	private async setTokensToResponse(tokens: TokensType, res: Response) {
-		res.cookie(JwtEnum.REFRESH_TOKEN, tokens.refreshToken, {
+		res.cookie(TokensEnum.REFRESH_TOKEN, tokens.refreshToken, {
 			httpOnly: true,
 			secure: true,
 			sameSite: 'lax',

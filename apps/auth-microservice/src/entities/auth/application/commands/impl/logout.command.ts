@@ -1,3 +1,5 @@
+import { LogoutType } from '../../../core/types'
+
 export class LogoutCommand {
-	constructor(public readonly dto: { userID: string; sessionID: string }) {}
+	constructor(public readonly dto: LogoutType) {}
 }

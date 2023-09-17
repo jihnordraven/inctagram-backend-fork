@@ -1,14 +1,9 @@
+import { AUTH_COMMAND_IMPLS } from './application/commands/impl/index'
 import { ForbiddenException, Injectable } from '@nestjs/common'
 import { ValidateUserType } from './guards-handlers/strategies/local.strategy'
 import { GithubProfile, GoogleProfile, User } from '@prisma/client'
 import { JwtRefreshPayload } from './guards-handlers/strategies'
 import { CommandBus } from '@nestjs/cqrs'
-import {
-	GenerateTokensCommand,
-	GithubRegisterCommand,
-	GoogleRegisterCommand,
-	LogoutCommand
-} from './application/commands/impl'
 import { GithubRegisterDTO, GoogleRegisterDTO } from './core/dtos'
 import { TokensType } from './application/commands/handlers'
 import { Response } from 'express'
@@ -48,10 +43,17 @@ export class AuthService {
 		{ userIP, userAgent }: { userIP: string; userAgent: string }
 	) {
 		await this.commandBus.execute(
-			new LogoutCommand({ userID: payload.userID, sessionID: payload.sessionID })
+			new AUTH_COMMAND_IMPLS.LogoutCommand({
+				userID: payload.userID,
+				sessionID: payload.sessionID
+			})
 		)
 		return this.commandBus.execute(
-			new GenerateTokensCommand({ userID: payload.userID, userIP, userAgent })
+			new AUTH_COMMAND_IMPLS.GenerateTokensCommand({
+				userID: payload.userID,
+				userIP,
+				userAgent
+			})
 		)
 	}
 
@@ -60,10 +62,10 @@ export class AuthService {
 		info: { userIP: string; userAgent: string }
 	): Promise<TokensType> {
 		const googleProfile: GoogleProfile = await this.commandBus.execute(
-			new GoogleRegisterCommand(dto)
+			new AUTH_COMMAND_IMPLS.GoogleRegisterCommand(dto)
 		)
 		return this.commandBus.execute(
-			new GenerateTokensCommand({
+			new AUTH_COMMAND_IMPLS.GenerateTokensCommand({
 				userID: googleProfile.userID,
 				userIP: info.userIP,
 				userAgent: info.userAgent
@@ -77,10 +79,10 @@ export class AuthService {
 		res: Response
 	): Promise<TokensType> {
 		const githubProfile: GithubProfile = await this.commandBus.execute(
-			new GithubRegisterCommand(dto, res)
+			new AUTH_COMMAND_IMPLS.GithubRegisterCommand(dto, res)
 		)
 		return this.commandBus.execute(
-			new GenerateTokensCommand({
+			new AUTH_COMMAND_IMPLS.GenerateTokensCommand({
 				userID: githubProfile.userID,
 				userIP: info.userIP,
 				userAgent: info.userAgent

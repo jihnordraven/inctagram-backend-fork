@@ -1,5 +1,5 @@
+import { GenerateTokensType } from '../../../core/types'
+
 export class GenerateTokensCommand {
-	constructor(
-		public readonly dto: { userID: string; userIP: string; userAgent: string }
-	) {}
+	constructor(public readonly dto: GenerateTokensType) {}
 }

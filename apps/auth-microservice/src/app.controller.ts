@@ -1,33 +1,47 @@
 import { Controller, Get, HttpCode, HttpStatus, Post, Query } from '@nestjs/common'
 import { AppService } from './app.service'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger'
 import { HelloPageHTML } from '../libs/static/templates'
 import { CONFIG } from '../config'
 import { Public } from './decorators'
+import { User } from '@prisma/client'
 
-@ApiTags('Basic API')
+@Public()
+@ApiTags('Basic endpoints (not available in production mode)')
 @Controller()
 export class AppController {
 	constructor(private readonly appService: AppService) {}
 
-	@Public()
 	@Get()
 	@HttpCode(HttpStatus.OK)
 	public test(): string {
 		return HelloPageHTML({ HOST: CONFIG.HOST })
 	}
 
-	@Public()
 	@Post('db/seed')
-	@HttpCode(HttpStatus.NO_CONTENT)
-	public async seedDB(): Promise<void> {
-		await this.appService.seedDB()
+	@HttpCode(HttpStatus.OK)
+	@ApiOperation({
+		summary: `Created a mock user (email: "email-[i]@mock.com",login: "login-[i]", password: "Password123%")`
+	})
+	public async seedDB(): Promise<User> {
+		return this.appService.seedDB()
 	}
 
-	@Public()
 	@Post('db/truncate')
 	@HttpCode(HttpStatus.NO_CONTENT)
-	public async truncateDB(@Query('table') table: string): Promise<void> {
+	@ApiOperation({ summary: 'truncate table or tables' })
+	@ApiParam({
+		name: 'Table name in query params',
+		type: String,
+		examples: {
+			'truncate users table': { value: 'user' },
+			'truncate sessions table': { value: 'session' },
+			'truncate email_codes table': { value: 'emailCode' },
+			'truncate google_profiles table': { value: 'googleProfile' },
+			'truncate github_profile table': { value: 'githubProfile' }
+		}
+	})
+	public async truncateDB(@Query('table') table: string | null): Promise<void> {
 		await this.appService.truncateDB(table)
 	}
 }

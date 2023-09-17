@@ -1,7 +1,5 @@
-import { Response } from 'express'
+import { NewPasswordType } from '../../../core/types'
 
 export class NewPasswordCommand {
-	constructor(
-		public readonly dto: { res: Response; code: string; newPassword: string }
-	) {}
+	constructor(public readonly dto: NewPasswordType) {}
 }

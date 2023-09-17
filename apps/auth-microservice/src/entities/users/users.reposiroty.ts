@@ -89,9 +89,16 @@ export class UsersRepository {
 			where: { id: userID },
 			data: { isConfirmed: true }
 		})
-		await this.cache.del(`user-email-${user.email}`)
-		await this.cache.del(`user-login-${user.login}`)
-		await this.cache.del(`user-id-${user.id}`)
+		// clean cache
+		const cacheKeys: string[] = await this.getCacheKeys({
+			email: user.email,
+			login: user.login,
+			id: user.id
+		})
+		for (const key of cacheKeys) {
+			await this.cache.del(key)
+		}
+		// clean cache
 	}
 
 	public async newPassword({
@@ -105,19 +112,44 @@ export class UsersRepository {
 			where: { id: userID },
 			data: { hashPassword: newHashPassword }
 		})
-		await this.cache.del(`user-email-${user.email}`)
-		await this.cache.del(`user-login-${user.login}`)
-		await this.cache.del(`user-id-${user.id}`)
+		// clean cache
+		const cacheKeys: string[] = await this.getCacheKeys({
+			email: user.email,
+			login: user.login,
+			id: user.id
+		})
+		for (const key of cacheKeys) {
+			await this.cache.del(key)
+		}
+		// clean cache
 	}
 
 	public async deleteUser({ userID }: { userID: string }): Promise<void> {
 		const user: User | null = await this.findUserById({ userID })
 		if (!user) throw new NotFoundException('User not found')
 
-		await this.cache.del(`user-email-${user.email}`)
-		await this.cache.del(`user-login-${user.login}`)
-		await this.cache.del(`user-id-${user.id}`)
+		// clean cache
+		const cacheKeys: string[] = await this.getCacheKeys({
+			email: user.email,
+			login: user.login,
+			id: user.id
+		})
+		for (const key of cacheKeys) {
+			await this.cache.del(key)
+		}
+		// clean cache
+	}
 
-		await this.prisma.user.delete({ where: { ...user } })
+	// helpers
+	private async getCacheKeys({
+		email,
+		login,
+		id
+	}: {
+		email: string
+		login: string
+		id: string
+	}): Promise<any> {
+		return [`user-email-${email}`, `user-login-${login}`, `user-id-${id}`]
 	}
 }

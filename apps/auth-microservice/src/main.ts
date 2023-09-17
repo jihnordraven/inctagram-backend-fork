@@ -9,13 +9,24 @@ import { validatePipeOptions } from '../helpers/error-handlers'
 import { swaggerSetup } from '../libs/static/swagger/swagger-setup'
 import { StatusEnum } from '../helpers/enums'
 
-const appSettings = async (logger: Logger): Promise<void> => {
+type AppSettingsType = (logger: Logger) => Promise<void>
+type BootstrapType = () => Promise<void>
+
+const appSettings: AppSettingsType = async (logger: Logger): Promise<void> => {
 	const app: INestApplication = await NestFactory.create<INestApplication>(AppModule)
 
 	app.setGlobalPrefix('api', {
 		exclude: [{ path: '', method: RequestMethod.GET }]
 	})
-	app.enableCors({ credentials: true })
+	app.enableCors({
+		origin: [
+			'http://localhost:4200',
+			'https://flying-merch.vercel.app',
+			'https://freedomindz.site'
+		],
+		credentials: true,
+		methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'HEAD']
+	})
 	app.use(cookieParser())
 
 	useContainer(app.select(AppModule), { fallbackOnErrors: true })
@@ -26,16 +37,16 @@ const appSettings = async (logger: Logger): Promise<void> => {
 
 	const PORT: string = config.get<string>('PORT')
 	const HOST: string = config.get<string>('HOST')
-	const STATUS: string = config.get<string>('STATUS')
+	const MODE: string = config.get<string>('MODE')
 
-	if (STATUS !== StatusEnum.PRODUCTION) swaggerSetup(app)
+	if (MODE !== StatusEnum.PRODUCTION) swaggerSetup(app)
 
 	await app.listen(PORT)
 
-	logger.log(blue(`Server is running on ${HOST} with status:${STATUS}`))
+	logger.log(blue(`Server is running on ${HOST} in ${MODE} mode`))
 }
 
-async function bootstrap(): Promise<void> {
+const bootstrap: BootstrapType = async (): Promise<void> => {
 	const logger: Logger = new Logger(bootstrap.name)
 	try {
 		await appSettings(logger)

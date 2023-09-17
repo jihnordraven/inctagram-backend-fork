@@ -4,7 +4,7 @@ export const CONFIG = {
 	// node
 	PORT: process.env.PORT,
 	HOST: process.env.HOST,
-	STATUS: process.env.STATUS,
+	MODE: process.env.MODE,
 	FRONTEND_HOST: process.env.FRONTEND_HOST,
 
 	// nodemailer
