@@ -7,9 +7,8 @@ import { Strategy } from 'passport-google-oauth20'
 export class GoogleStrategy extends PassportStrategy(Strategy) {
 	constructor() {
 		super({
-			clientID:
-				'55902056098-rn96jglrndautq681c71999gek6qjhck.apps.googleusercontent.com',
-			clientSecret: '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',
+			clientID: CONFIG.GOOGLE_CLIENT_ID,
+			clientSecret: CONFIG.GOOGLE_CLIENT_SECRET,
 			callbackURL: `${CONFIG.HOST}/api/auth/google/callback`,
 			scope: ['profile', 'email']
 		})
