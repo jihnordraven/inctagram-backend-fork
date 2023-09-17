@@ -10,7 +10,7 @@ import { swaggerSetup } from '../libs/static/swagger/swagger-setup'
 import { StatusEnum } from '../helpers/enums'
 
 const appSettings = async (logger: Logger): Promise<void> => {
-	const app = await NestFactory.create<INestApplication>(AppModule)
+	const app: INestApplication = await NestFactory.create<INestApplication>(AppModule)
 
 	app.setGlobalPrefix('api', {
 		exclude: [{ path: '', method: RequestMethod.GET }]
