@@ -20,8 +20,8 @@ const appSettings: AppSettingsType = async (logger: Logger): Promise<void> => {
 	})
 	app.enableCors({
 		origin: [
-			'http://localhost:4200',
-			'https://flying-merch.vercel.app',
+			'http://localhost:3000',
+			'https://flying-merch-front.vercel.app',
 			'https://freedomindz.site'
 		],
 		credentials: true,
