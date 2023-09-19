@@ -15,7 +15,6 @@ export class Github2Strategy extends PassportStrategy(Strategy) {
 	}
 
 	public validate(accessToken: string): { accessToken: string } {
-		console.log(accessToken)
 		return { accessToken: accessToken }
 	}
 }

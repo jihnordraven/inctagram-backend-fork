@@ -139,5 +139,4 @@ export class AuthRepository {
 			throw new InternalServerErrorException('Unable to create new github profile')
 		return githubProfile
 	}
-	// github oauth
 }
