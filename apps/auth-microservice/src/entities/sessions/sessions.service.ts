@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { SessionsRepository } from './sessions.repository'
 import { Session } from '@prisma/client'
 
@@ -13,23 +13,23 @@ export class SessionsService {
 		sessionID: string
 		expiresIn: number
 	}): Promise<boolean> {
-		if (!sessionID) return false
+		if (!sessionID) return null
 
 		const session: Session = await this.sessionRepository.findSessionByID({
 			sessionID
 		})
-		if (!session) return false
+		if (!session) return null
 
 		const currentTime: Date = new Date()
 		const sessionExpiresIn: Date = new Date(session.expiresIn)
 
-		if (currentTime >= sessionExpiresIn) return false
+		if (currentTime >= sessionExpiresIn) return null
 
 		const sessionCreatedAt: Date = new Date(session.createdAt)
 		const expirationTimeInSeconds: number = expiresIn * 1000
 
 		if (currentTime.getTime() - sessionCreatedAt.getTime() > expirationTimeInSeconds)
-			return false
+			return null
 
 		return true
 	}

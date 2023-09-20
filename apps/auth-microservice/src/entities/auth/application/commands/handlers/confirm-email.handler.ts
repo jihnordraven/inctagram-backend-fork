@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 import { ConfirmEmailCommand } from '../impl'
-import { EmailCode } from '@prisma/client'
+import { EmailCode, User } from '@prisma/client'
 import { ConfigService } from '@nestjs/config'
 import { AuthRepository } from '../../../repositories/auth.repository'
 import { UsersService } from '../../../../users/users.service'
@@ -21,7 +21,6 @@ export class ConfirmEmailHandler implements ICommandHandler<ConfirmEmailCommand>
 		const isCode: EmailCode = await this.authRepository.findEmailCodeByCode({
 			code
 		})
-
 		if (!isCode) res.redirect(`${this.FRONTEND_HOST}/auth`)
 
 		if (isCode.isUsed) res.redirect(`${this.FRONTEND_HOST}`)
@@ -35,6 +34,15 @@ export class ConfirmEmailHandler implements ICommandHandler<ConfirmEmailCommand>
 
 		await this.usersRepository.confirmUser({ userID: isCode.userID })
 		await this.usersService.cancelScheduledDeletion({ userID: isCode.userID })
+
+		const user: User = await this.usersRepository.findUserById({
+			userID: isCode.userID
+		})
+
+		await this.usersRepository.createProfile({
+			username: user.login,
+			userID: user.id
+		})
 
 		res.redirect(`${this.FRONTEND_HOST}/auth/confirmed`)
 	}

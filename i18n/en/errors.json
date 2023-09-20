@@ -1,0 +1,4 @@
+{
+	"email-conflict": "User with this email is already registered",
+	"login-conflict": "User with this login is already registered"
+}

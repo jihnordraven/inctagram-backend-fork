@@ -6,11 +6,12 @@ import {
 	NotFoundException
 } from '@nestjs/common'
 import { SkipThrottle } from '@nestjs/throttler'
-import { User } from '@prisma/client'
+import { Profile, User } from '@prisma/client'
 import { red } from 'colorette'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { Cache } from 'cache-manager'
 import { PrismaService } from '../../../prisma/prisma.service'
+import { EditProfileDTO } from './core/dtos'
 
 @SkipThrottle()
 @Injectable()
@@ -101,6 +102,23 @@ export class UsersRepository {
 		// clean cache
 	}
 
+	public async createProfile({
+		username,
+		userID
+	}: {
+		username: string
+		userID: string
+	}) {
+		await this.prisma.profile.create({
+			data: {
+				username,
+				userID,
+				firstName: '',
+				lastName: ''
+			}
+		})
+	}
+
 	public async newPassword({
 		userID,
 		newHashPassword
@@ -151,5 +169,25 @@ export class UsersRepository {
 		id: string
 	}): Promise<any> {
 		return [`user-email-${email}`, `user-login-${login}`, `user-id-${id}`]
+	}
+
+	// profile
+	public async editProfile(dto: EditProfileDTO, userID: string): Promise<Profile> {
+		const profile: Profile | void = await this.prisma.profile
+			.update({
+				where: { userID },
+				data: dto
+			})
+			.catch((err: string) => this.logger.error(err))
+		if (!profile) throw new InternalServerErrorException('Unable to edit profile')
+
+		return profile
+	}
+
+	public async editAvatar(data: { avatarUrl: string; userID: string }): Promise<void> {
+		await this.prisma.profile.update({
+			where: { userID: data.userID },
+			data: { avatarUrl: data.avatarUrl }
+		})
 	}
 }

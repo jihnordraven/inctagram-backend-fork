@@ -17,7 +17,7 @@ import { AuthService } from '../auth.service'
 import { TokensType } from '../application/commands/handlers'
 import { Public, UserAgent } from '../../../decorators'
 import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger'
-import { CONFIG } from '../../../../config'
+import { CONFIG } from '../../../../../../libs/common/src/config'
 import { TokensEnum } from '../../../../helpers/enums'
 import {
 	SwaggerGoogleRegisterType,

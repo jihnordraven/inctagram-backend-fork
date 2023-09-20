@@ -38,6 +38,7 @@ export class AuthRepository {
 	}: {
 		code: string
 	}): Promise<EmailCode | null> {
+		console.log(code)
 		const emailCode: EmailCode | null = await this.cache.get(
 			`email_code-code-${code}`
 		)

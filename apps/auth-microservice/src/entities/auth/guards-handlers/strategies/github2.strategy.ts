@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
-import { CONFIG } from 'apps/auth-microservice/config'
+import { CONFIG } from 'libs/common/src/config'
 import { Strategy } from 'passport-github2'
 
 @Injectable()

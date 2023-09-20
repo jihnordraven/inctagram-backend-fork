@@ -11,6 +11,7 @@ import { add } from 'date-fns'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { Cache } from 'cache-manager'
 import { PrismaService } from '../../../prisma/prisma.service'
+import { CONFIG } from 'libs/common/src/config'
 
 @Injectable()
 export class SessionsRepository {
@@ -37,7 +38,7 @@ export class SessionsRepository {
 					userIP: data.userIP,
 					userAgent: data.userAgent,
 					expiresIn: add(new Date(), {
-						seconds: 10
+						seconds: Number(CONFIG.JWT_REFRESH_EXPIRES)
 					})
 				}
 			})

@@ -6,7 +6,7 @@ import { Github2Guard } from '../guards-handlers/guards/github2.guard'
 import { GithubRegisterDTO } from '../core/dtos'
 import { Public, UserAgent } from '../../../decorators'
 import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger'
-import { CONFIG } from '../../../../config'
+import { CONFIG } from '../../../../../../libs/common/src/config'
 import { TokensEnum } from '../../../../helpers/enums'
 
 @Public()

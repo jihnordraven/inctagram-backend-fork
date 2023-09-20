@@ -12,14 +12,18 @@ CREATE TABLE "users" (
 );
 
 -- CreateTable
-CREATE TABLE "email_codes" (
+CREATE TABLE "profiles" (
     "id" TEXT NOT NULL,
-    "code" TEXT NOT NULL,
-    "expires_in" TIMESTAMP(3) NOT NULL,
+    "avatar_url" TEXT,
+    "username" TEXT NOT NULL,
+    "firstName" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
+    "birthday" TEXT,
+    "city" TEXT,
+    "about_me" TEXT,
     "user_id" TEXT NOT NULL,
-    "is_used" BOOLEAN NOT NULL DEFAULT false,
 
-    CONSTRAINT "email_codes_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "profiles_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -40,6 +44,17 @@ CREATE TABLE "google_profiles" (
     "user_id" TEXT NOT NULL,
 
     CONSTRAINT "google_profiles_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "email_codes" (
+    "id" TEXT NOT NULL,
+    "code" TEXT NOT NULL,
+    "expires_in" TIMESTAMP(3) NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "is_used" BOOLEAN NOT NULL DEFAULT false,
+
+    CONSTRAINT "email_codes_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -64,10 +79,13 @@ CREATE UNIQUE INDEX "users_login_key" ON "users"("login");
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "email_codes_id_key" ON "email_codes"("id");
+CREATE UNIQUE INDEX "profiles_id_key" ON "profiles"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "email_codes_code_key" ON "email_codes"("code");
+CREATE UNIQUE INDEX "profiles_username_key" ON "profiles"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "profiles_user_id_key" ON "profiles"("user_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "github_profiles_id_key" ON "github_profiles"("id");
@@ -94,16 +112,25 @@ CREATE UNIQUE INDEX "google_profiles_email_key" ON "google_profiles"("email");
 CREATE UNIQUE INDEX "google_profiles_user_id_key" ON "google_profiles"("user_id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "email_codes_id_key" ON "email_codes"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "email_codes_code_key" ON "email_codes"("code");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "sessions_id_key" ON "sessions"("id");
 
 -- AddForeignKey
-ALTER TABLE "email_codes" ADD CONSTRAINT "email_codes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
+ALTER TABLE "profiles" ADD CONSTRAINT "profiles_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "github_profiles" ADD CONSTRAINT "github_profiles_user_ID_fkey" FOREIGN KEY ("user_ID") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "google_profiles" ADD CONSTRAINT "google_profiles_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "email_codes" ADD CONSTRAINT "email_codes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION;

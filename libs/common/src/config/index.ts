@@ -29,5 +29,12 @@ export const CONFIG = {
 	// reds
 	REDIS_PASSWORD: process.env.REDIS_PASSWORD,
 	REDIS_HOST: process.env.REDIS_HOST,
-	REDIS_PORT: process.env.REDIS_PORT
+	REDIS_PORT: process.env.REDIS_PORT,
+
+	// aws-s3
+	AWS_S3_REGION: process.env.AWS_S3_REGION,
+	AWS_S3_BUCKET: process.env.AWS_S3_BUCKET,
+
+	// rabbitmq
+	RMQ_HOST_URL: process.env.RMQ_HOST_URL
 }

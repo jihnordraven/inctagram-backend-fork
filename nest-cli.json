@@ -4,7 +4,7 @@
 	"sourceRoot": "apps/auth-microservice/src",
 	"compilerOptions": {
 		"deleteOutDir": true,
-		"assets": ["views/**/*.html"],
+		"assets": ["views/**/*.html", "i18n/**/*"],
 		"webpack": true,
 		"tsConfigPath": "apps/auth-microservice/tsconfig.app.json"
 	},
@@ -27,6 +27,15 @@
 			"sourceRoot": "apps/gateway/src",
 			"compilerOptions": {
 				"tsConfigPath": "apps/gateway/tsconfig.app.json"
+			}
+		},
+		"files-microservice": {
+			"type": "application",
+			"root": "apps/files-microservice",
+			"entryFile": "main",
+			"sourceRoot": "apps/files-microservice/src",
+			"compilerOptions": {
+				"tsConfigPath": "apps/files-microservice/tsconfig.app.json"
 			}
 		}
 	}
