@@ -11,12 +11,13 @@ const bootstrap: BootstrapType = async (): Promise<void> => {
 
 	try {
 		const app = await NestFactory.create<INestApplication>(FilesModule)
-
 		const rmqService: RmqService = app.get<RmqService>(RmqService)
 		app.connectMicroservice(rmqService.getOptions({ queue: 'MAIN', noAck: true }))
 
 		await app.startAllMicroservices()
 		logger.log('Microservice started with status 200')
+
+		await app.listen(4201)
 	} catch (err: unknown) {
 		logger.error(red(`Microservice started with status 500. Learn more at: ${err}`))
 	}
