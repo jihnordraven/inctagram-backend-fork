@@ -4,7 +4,7 @@ import { UsersRepository } from './users.reposiroty'
 import { CqrsModule } from '@nestjs/cqrs'
 import { USERS_COMMANDS_HANDLERS } from './application/commands/handlers'
 import { UsersController } from './users.controller'
-import { RmqModule } from 'libs/common/src/rmq/rmq.module'
+import { RmqModule } from '../../../../../libs/common/src/rmq/rmq.module'
 
 @Module({
 	imports: [CqrsModule, RmqModule.register({ name: 'MAIN' })],
