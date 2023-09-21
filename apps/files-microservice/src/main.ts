@@ -1,4 +1,4 @@
-import { INestApplication, INestMicroservice, Logger } from '@nestjs/common'
+import { INestApplication, Logger } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { FilesModule } from './files.module'
 import { RmqService } from '../../../libs/common/src/rmq/rmq.service'

@@ -41,7 +41,7 @@ const appSettings: AppSettingsType = async (logger: Logger): Promise<void> => {
 
 	if (MODE !== StatusEnum.PRODUCTION) swaggerSetup(app)
 
-	await app.listen(PORT)
+	await app.listen(PORT || 4200)
 
 	logger.log(blue(`Server is running on ${HOST} in ${MODE} mode`))
 }
