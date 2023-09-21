@@ -16,7 +16,7 @@ export class FilesService {
 		const buffer: Buffer = Buffer.from(data.buffer.data)
 
 		try {
-			this.s3Client.send(
+			await this.s3Client.send(
 				new PutObjectCommand({
 					Bucket: 'flying-merch-bucket',
 					Key: data.filename,
