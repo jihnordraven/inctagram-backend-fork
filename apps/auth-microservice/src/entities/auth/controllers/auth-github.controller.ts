@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Ip, Post, Res, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, Ip, Post, Req, Res, UseGuards } from '@nestjs/common'
 import { TokensType } from '../application/commands/handlers'
-import { Response } from 'express'
+import { Request, Response } from 'express'
 import { AuthService } from '../auth.service'
 import { Github2Guard } from '../guards-handlers/guards/github2.guard'
 import { GithubRegisterDTO } from '../core/dtos'
@@ -22,7 +22,13 @@ export class AuthGithubController {
 	@Get('callback')
 	@UseGuards(Github2Guard)
 	@ApiExcludeEndpoint()
-	public githubCallback(): void {}
+	public githubCallback(@Req() req: Request, @Res() res: Response): void {
+		// @ts-ignore
+		const accessToken: string = req.user.accessToken
+		res.redirect(
+			`${CONFIG.FRONTEND_HOST}/auth/callback/github?accessToken=${accessToken}`
+		)
+	}
 
 	@Post('register')
 	public async githubRegister(

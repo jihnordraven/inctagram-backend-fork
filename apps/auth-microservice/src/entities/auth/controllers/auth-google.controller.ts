@@ -42,7 +42,9 @@ export class AuthGoogleController {
 		// @ts-ignore
 		const accessToken: string = req.user.accessToken
 		console.log(accessToken)
-		res.redirect(`${CONFIG.FRONTEND_HOST}/auth/google?accessToken=${accessToken}`)
+		res.redirect(
+			`${CONFIG.FRONTEND_HOST}/auth/callback/google?accessToken=${accessToken}`
+		)
 	}
 
 	@Post('register')

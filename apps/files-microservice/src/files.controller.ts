@@ -1,4 +1,4 @@
-import { EventPattern } from '@nestjs/microservices'
+import { EventPattern, MessagePattern } from '@nestjs/microservices'
 import { Controller, Get, Logger } from '@nestjs/common'
 import { UploadAvatarType } from './types'
 import { FilesService } from './files.service'
