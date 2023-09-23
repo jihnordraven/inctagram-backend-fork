@@ -16,7 +16,6 @@ const bootstrap: BootstrapType = async (): Promise<void> => {
 
 		await app.startAllMicroservices()
 		logger.log('Microservice started with status 200')
-
 		await app.listen(4300)
 	} catch (err: unknown) {
 		logger.error(red(`Microservice started with status 500. Learn more at: ${err}`))

@@ -93,7 +93,7 @@ export class AuthService {
 	// helpers
 	public async genUniqueUsername({ prefix }: { prefix: string }): Promise<string> {
 		let isUsernameTaken: User | null
-		let uniqueUsername: string
+		let uniqueUsername: string = ''
 		let suffix: number = 1
 
 		do {

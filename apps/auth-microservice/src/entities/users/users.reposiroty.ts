@@ -41,6 +41,7 @@ export class UsersRepository {
 	}
 
 	public async findUserByLogin({ login }: { login: string }): Promise<User | null> {
+		console.log(login)
 		const user: User | null = await this.cache.get(`user-login-${login}`)
 		if (!user) {
 			const user: User | null = await this.prisma.user.findUnique({
