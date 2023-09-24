@@ -71,13 +71,15 @@ export class UsersRepository {
 		email: string
 		login: string
 		hashPassword?: string
+		isConfirmed?: boolean
 	}) {
 		const user: User | void = await this.prisma.user
 			.create({
 				data: {
 					email: data.email,
 					login: data.login,
-					hashPassword: data.hashPassword
+					hashPassword: data.hashPassword,
+					isConfirmed: data.isConfirmed ?? false
 				}
 			})
 			.catch((err: string) => this.logger.error(red(err)))

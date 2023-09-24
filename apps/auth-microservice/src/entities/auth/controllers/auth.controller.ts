@@ -23,13 +23,13 @@ import {
 	LocalAuthPayload,
 	Public,
 	UserAgent
-} from '../../../decorators'
-import { TokensEnum } from '../../../../helpers/enums'
+} from '../../../../utils/decorators'
+import { TokensEnum } from '../../../../utils/enums'
 import { AUTH_COMMAND_IMPLS } from '../application/commands/impl'
-import { AUTH_SWAGGER } from '../../../..//libs/static/swagger/types/auth'
+import { AUTH_SWAGGER } from '../../../../static/swagger/types/auth'
 
 import { TokensType } from '../application/commands/handlers'
-import { LocalGuard } from '../guards-handlers/guards'
+import { LocalAuthGuard } from '../guards-handlers/guards'
 import { JwtRefreshGuard } from '../guards-handlers/guards/jwt-refresh.guard'
 import { JwtAccessPayload, JwtRefreshPayload } from '../guards-handlers/strategies'
 import { AuthService } from '../auth.service'
@@ -109,7 +109,7 @@ export class AuthController {
 	@Public()
 	@Post('login')
 	@HttpCode(HttpStatus.OK)
-	@UseGuards(LocalGuard)
+	@UseGuards(LocalAuthGuard)
 	@AUTH_SWAGGER.SwaggerLoginType()
 	public async login(
 		@LocalAuthPayload('id', ParseUUIDPipe) userID: string,

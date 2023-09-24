@@ -1,5 +1,5 @@
 import { AUTH_COMMAND_IMPLS } from './application/commands/impl/index'
-import { ForbiddenException, Injectable } from '@nestjs/common'
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common'
 import { ValidateUserType } from './guards-handlers/strategies/local.strategy'
 import { GithubProfile, GoogleProfile, User } from '@prisma/client'
 import { JwtRefreshPayload } from './guards-handlers/strategies'
@@ -23,6 +23,11 @@ export class AuthService {
 			email: data.email
 		})
 		if (!user) return null
+
+		if (!user.hashPassword)
+			throw new UnauthorizedException(
+				"User doesn't have password, redirect to special frontend for choose any of provider's account or set password?"
+			)
 
 		const isValidPassword: boolean = await this.argon2Adapter.verify({
 			hashPassword: user.hashPassword,

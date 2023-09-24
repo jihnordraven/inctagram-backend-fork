@@ -14,10 +14,10 @@ import {
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { EditProfileDTO } from './core/dtos'
-import { JwtAccessPayloadDecorator } from '../../decorators'
 import { CommandBus } from '@nestjs/cqrs'
 import { USERS_COMMANDS_IMPLS } from './application/commands/impl'
 import { FileInterceptor } from '@nestjs/platform-express'
+import { JwtAccessPayloadDecorator } from 'apps/auth-microservice/utils/decorators'
 
 const AvatarValidationPipe = new ParseFilePipe({
 	validators: [

@@ -1,5 +1,5 @@
 import { CONFIG } from '../../../../../../libs/common/src/config'
-import { emailConfirmHTML, passwordRecoveryHTML } from '../../../../libs/static/templates'
+import { emailConfirmHTML, passwordRecoveryHTML } from '../../../../static/templates'
 import { SendMailOptions, Transporter, createTransport } from 'nodemailer'
 
 type SendMailType = {

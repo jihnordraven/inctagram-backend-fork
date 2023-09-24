@@ -1,11 +1,11 @@
 import { IsNotEmpty, IsString, Length, Matches } from 'class-validator'
+import { ApiProperty } from '@nestjs/swagger'
+import { TrimValidate } from '../../../../../utils/validations'
 import {
 	EmailPattern,
 	LoginPattern,
 	PasswordPattern
-} from '../../../../../helpers/patterns'
-import { TrimValidate } from '../../../../../helpers/validations'
-import { ApiProperty } from '@nestjs/swagger'
+} from '../../../../../utils/patterns'
 
 export class RegistrationDTO {
 	@ApiProperty({

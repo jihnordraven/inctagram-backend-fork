@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
-import { TokensEnum } from 'apps/auth-microservice/helpers/enums'
 import { Request } from 'express'
 import { Strategy } from 'passport-jwt'
 import { SessionsService } from '../../../sessions/sessions.service'
 import { CONFIG } from 'libs/common/src/config'
+import { TokensEnum } from 'apps/auth-microservice/utils/enums'
 
 const RefreshCookieExtractor = (req: Request): string => {
 	let token: null | string = null

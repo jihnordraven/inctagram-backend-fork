@@ -1,17 +1,9 @@
-import {
-	Controller,
-	Get,
-	HttpCode,
-	HttpStatus,
-	Inject,
-	Post,
-	Query
-} from '@nestjs/common'
+import { Controller, Get, HttpCode, HttpStatus, Post, Query } from '@nestjs/common'
 import { AppService } from './app.service'
 import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger'
-import { HelloPageHTML } from '../libs/static/templates'
+import { HelloPageHTML } from '../static/templates'
 import { CONFIG } from '../../../libs/common/src/config'
-import { Public } from './decorators'
+import { Public } from '../utils/decorators'
 import { User } from '@prisma/client'
 
 @Public()

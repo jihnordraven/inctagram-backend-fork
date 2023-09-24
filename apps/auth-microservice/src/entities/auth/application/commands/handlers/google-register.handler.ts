@@ -38,7 +38,8 @@ export class GoogleRegisterHandler implements ICommandHandler<GoogleRegisterComm
 			})
 			const newUser: User = await this.usersRepository.createUser({
 				email: dto.email,
-				login: uniqueUsername
+				login: uniqueUsername,
+				isConfirmed: true
 			})
 			return this.authRepository.createGoogleProfile(dto, { userID: newUser.id })
 		}

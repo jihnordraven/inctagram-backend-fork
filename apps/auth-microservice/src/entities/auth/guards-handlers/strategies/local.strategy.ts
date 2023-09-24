@@ -10,7 +10,7 @@ export type ValidateUserType = {
 }
 
 @Injectable()
-export class LocalStrategy extends PassportStrategy(Strategy) {
+export class LocalAuthStrategy extends PassportStrategy(Strategy) {
 	constructor(private readonly authService: AuthService) {
 		super({
 			usernameField: 'email'

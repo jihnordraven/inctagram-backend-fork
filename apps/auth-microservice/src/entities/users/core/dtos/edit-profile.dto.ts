@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { LoginPattern, NamePattern } from 'apps/auth-microservice/helpers/patterns'
+import { LoginPattern, NamePattern } from '../../../../../utils/patterns'
 import { IsNotEmpty, IsOptional, Matches, MaxLength } from 'class-validator'
 
 export class EditProfileDTO {

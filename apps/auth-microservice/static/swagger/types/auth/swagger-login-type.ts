@@ -1,6 +1,6 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common'
 import { ApiBody, ApiOperation, ApiProperty, ApiResponse } from '@nestjs/swagger'
-import { EmailPattern, PasswordPattern } from 'apps/auth-microservice/helpers/patterns'
+import { EmailPattern, PasswordPattern } from '../../../../utils/patterns'
 
 class LoginDTO {
 	@ApiProperty({

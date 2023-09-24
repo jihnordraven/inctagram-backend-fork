@@ -1,5 +1,5 @@
 import { ExecutionContext, createParamDecorator } from '@nestjs/common'
-import { JwtAccessPayload } from '../entities/auth/guards-handlers/strategies'
+import { JwtAccessPayload } from 'apps/auth-microservice/src/entities/auth/guards-handlers/strategies'
 import { Request } from 'express'
 
 export const JwtAccessPayloadDecorator = createParamDecorator(

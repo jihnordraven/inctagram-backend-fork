@@ -15,14 +15,14 @@ import { Request, Response } from 'express'
 import { GoogleRegisterDTO } from '../core/dtos/google-register.dto'
 import { AuthService } from '../auth.service'
 import { TokensType } from '../application/commands/handlers'
-import { Public, UserAgent } from '../../../decorators'
+import { Public, UserAgent } from '../../../../utils/decorators'
 import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger'
 import { CONFIG } from '../../../../../../libs/common/src/config'
-import { TokensEnum } from '../../../../helpers/enums'
+import { TokensEnum } from '../../../../utils/enums'
 import {
 	SwaggerGoogleRegisterType,
 	SwaggerGoogleType
-} from '../../../../libs/static/swagger/types/auth'
+} from '../../../../static/swagger/types/auth'
 
 @Public()
 @ApiTags('Google oAuth')
