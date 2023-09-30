@@ -166,7 +166,6 @@ export class AuthController {
 		res.cookie(TokensEnum.REFRESH_TOKEN, tokens.refreshToken, {
 			httpOnly: true,
 			secure: false,
-			sameSite: 'none',
 			expires: add(new Date(), {
 				seconds: this.config.get<number>('JWT_REFRESH_EXPIRES')
 			})
