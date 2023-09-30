@@ -56,15 +56,13 @@ export class AuthController {
 	}
 
 	@Public()
-	@Post('registration-email-resending')
+	@Post('resend-code')
 	@HttpCode(HttpStatus.NO_CONTENT)
 	@AUTH_SWAGGER.SwaggerEmailResendType()
 	public async registrationEmailResending(
 		@Query('code', ParseUUIDPipe) code: string
 	): Promise<void> {
-		await this.commandBus.execute(
-			new AUTH_COMMAND_IMPLS.ResendConfirmEmailCommand({ code })
-		)
+		await this.commandBus.execute(new AUTH_COMMAND_IMPLS.ResendCodeCommand({ code }))
 	}
 
 	@Public()
@@ -167,7 +165,7 @@ export class AuthController {
 	private async setTokensToResponse(tokens: TokensType, res: Response): Promise<void> {
 		res.cookie(TokensEnum.REFRESH_TOKEN, tokens.refreshToken, {
 			httpOnly: true,
-			secure: true,
+			secure: false,
 			sameSite: 'lax',
 			expires: add(new Date(), {
 				seconds: this.config.get<number>('JWT_REFRESH_EXPIRES')

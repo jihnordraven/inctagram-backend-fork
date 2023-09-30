@@ -6,11 +6,11 @@ import { LocalRegisterHandler } from './local-register.handler'
 import { LogoutHandler } from './logout.handler'
 import { NewPasswordHandler } from './new-password.handler'
 import { PasswordRecoveryHandler } from './password-recovery.handler'
-import { ResendConfirmEmailHandler } from './resend-confirm-email.handler'
+import { ResendCodeHandler } from './resend-code.handler'
 
 export * from './local-register.handler'
 export * from './confirm-email.handler'
-export * from './resend-confirm-email.handler'
+export * from './resend-code.handler'
 export * from './password-recovery.handler'
 export * from './new-password.handler'
 export * from './generate-tokens.handler'
@@ -21,7 +21,7 @@ export * from './github-register.handler'
 export const AUTH_COMMANDS_HANDLERS = [
 	LocalRegisterHandler,
 	ConfirmEmailHandler,
-	ResendConfirmEmailHandler,
+	ResendCodeHandler,
 	PasswordRecoveryHandler,
 	NewPasswordHandler,
 	GenerateTokensHandler,

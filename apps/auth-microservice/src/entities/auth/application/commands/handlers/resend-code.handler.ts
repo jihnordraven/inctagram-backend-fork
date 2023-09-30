@@ -1,22 +1,20 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
-import { ResendConfirmEmailCommand } from '../impl'
+import { ResendCodeCommand } from '../impl'
 import { EmailCode, User } from '@prisma/client'
 import { AuthRepository } from '../../../repositories/auth.repository'
 import { NotFoundException } from '@nestjs/common'
 import { MailerAdapter } from '../../../adapters'
 import { UsersRepository } from '../../../../users/users.reposiroty'
 
-@CommandHandler(ResendConfirmEmailCommand)
-export class ResendConfirmEmailHandler
-	implements ICommandHandler<ResendConfirmEmailCommand>
-{
+@CommandHandler(ResendCodeCommand)
+export class ResendCodeHandler implements ICommandHandler<ResendCodeCommand> {
 	constructor(
 		protected readonly authRepository: AuthRepository,
 		protected readonly userRepository: UsersRepository,
 		protected readonly mailerAdapter: MailerAdapter
 	) {}
 
-	public async execute({ dto: { code } }: ResendConfirmEmailCommand): Promise<void> {
+	public async execute({ dto: { code } }: ResendCodeCommand): Promise<void> {
 		const isCode: EmailCode | null = await this.authRepository.findEmailCodeByCode({
 			code
 		})

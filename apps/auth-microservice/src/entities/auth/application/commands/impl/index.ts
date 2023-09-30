@@ -6,11 +6,11 @@ import { LocalRegisterCommand } from './local-register.command'
 import { LogoutCommand } from './logout.command'
 import { NewPasswordCommand } from './new-password.command'
 import { PasswordRecoveryCommand } from './password-recovery.command'
-import { ResendConfirmEmailCommand } from './resend-confirm-email.command'
+import { ResendCodeCommand } from './resend-code.command'
 
 export * from './local-register.command'
 export * from './confirm-email.command'
-export * from './resend-confirm-email.command'
+export * from './resend-code.command'
 export * from './password-recovery.command'
 export * from './new-password.command'
 export * from './generate-tokens.command'
@@ -21,7 +21,7 @@ export * from './github-register.command'
 export const AUTH_COMMAND_IMPLS = {
 	LocalRegisterCommand,
 	ConfirmEmailCommand,
-	ResendConfirmEmailCommand,
+	ResendCodeCommand,
 	PasswordRecoveryCommand,
 	NewPasswordCommand,
 	GenerateTokensCommand,

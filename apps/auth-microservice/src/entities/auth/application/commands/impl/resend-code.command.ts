@@ -1,5 +1,5 @@
 import { ResendConfirmEmailType } from '../../../core/types'
 
-export class ResendConfirmEmailCommand {
+export class ResendCodeCommand {
 	constructor(public readonly dto: ResendConfirmEmailType) {}
 }
