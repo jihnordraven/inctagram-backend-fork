@@ -165,7 +165,8 @@ export class AuthController {
 	private async setTokensToResponse(tokens: TokensType, res: Response): Promise<void> {
 		res.cookie(TokensEnum.REFRESH_TOKEN, tokens.refreshToken, {
 			httpOnly: true,
-			secure: false,
+			secure: true,
+			sameSite: 'none',
 			expires: add(new Date(), {
 				seconds: this.config.get<number>('JWT_REFRESH_EXPIRES')
 			})
