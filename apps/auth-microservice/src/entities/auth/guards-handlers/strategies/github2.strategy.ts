@@ -7,8 +7,8 @@ import { Strategy } from 'passport-github2'
 export class Github2Strategy extends PassportStrategy(Strategy) {
 	constructor() {
 		super({
-			clientID: CONFIG.GITHUB_CLIENT_ID,
-			clientSecret: CONFIG.GITHUB_CLIENT_SECRET,
+			clientID: 'fdasfsa',
+			clientSecret: 'fdahfks',
 			callbackURL: `${CONFIG.HOST}/api/auth/github/callback`,
 			scopes: ['public_profile']
 		})

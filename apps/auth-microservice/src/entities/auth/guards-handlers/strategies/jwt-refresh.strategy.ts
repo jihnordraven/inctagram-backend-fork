@@ -25,12 +25,13 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
 	constructor(private readonly sessionService: SessionsService) {
 		super({
 			jwtFromRequest: RefreshCookieExtractor,
-			secretOrKey: CONFIG.JWT_REFRESH_SECRET,
+			secretOrKey: 'secret',
 			ignoreExpiration: false
 		})
 	}
 
 	public async validate(payload: JwtRefreshPayload): Promise<JwtRefreshPayload> {
+		console.log(payload)
 		const session: boolean = await this.sessionService.validateSession({
 			sessionID: payload.sessionID,
 			expiresIn: payload.iat
