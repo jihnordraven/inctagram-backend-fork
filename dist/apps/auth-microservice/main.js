@@ -523,14 +523,14 @@ let GenerateTokensHandler = class GenerateTokensHandler {
         const session = await this.sessionsRepository.createSession(dto);
         const accessToken = 'Bearer ' +
             this.jwtService.sign({ userID: dto.userID }, {
-                secret: 'secret',
+                secret: config_2.CONFIG.JWT_ACCESS_SECRET,
                 expiresIn: Number(config_2.CONFIG.JWT_ACCESS_EXPIRES)
             });
         const refreshToken = this.jwtService.sign({
             userID: dto.userID,
             sessionID: session.id
         }, {
-            secret: 'secret',
+            secret: config_2.CONFIG.JWT_REFRESH_SECRET,
             expiresIn: Number(config_2.CONFIG.JWT_REFRESH_EXPIRES)
         });
         return { accessToken, refreshToken };
@@ -2360,8 +2360,8 @@ const passport_github2_1 = __webpack_require__(/*! passport-github2 */ "passport
 let Github2Strategy = class Github2Strategy extends (0, passport_1.PassportStrategy)(passport_github2_1.Strategy) {
     constructor() {
         super({
-            clientID: 'fdasfsa',
-            clientSecret: 'fdahfks',
+            clientID: config_1.CONFIG.GITHUB_CLIENT_ID,
+            clientSecret: config_1.CONFIG.GITHUB_CLIENT_SECRET,
             callbackURL: `${config_1.CONFIG.HOST}/api/auth/github/callback`,
             scopes: ['public_profile']
         });
@@ -2404,8 +2404,8 @@ const passport_google_oauth20_1 = __webpack_require__(/*! passport-google-oauth2
 let GoogleStrategy = class GoogleStrategy extends (0, passport_1.PassportStrategy)(passport_google_oauth20_1.Strategy) {
     constructor() {
         super({
-            clientID: 'fdahdfskhf',
-            clientSecret: 'fdsafhdskjf',
+            clientID: config_1.CONFIG.GOOGLE_CLIENT_ID,
+            clientSecret: config_1.CONFIG.GOOGLE_CLIENT_SECRET,
             callbackURL: `${config_1.CONFIG.HOST}/api/auth/google/callback`,
             scope: ['profile', 'email']
         });
@@ -2487,12 +2487,13 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.JwtAccessStrategy = void 0;
 const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const passport_1 = __webpack_require__(/*! @nestjs/passport */ "@nestjs/passport");
+const config_1 = __webpack_require__(/*! libs/common/src/config */ "./libs/common/src/config/index.ts");
 const passport_jwt_1 = __webpack_require__(/*! passport-jwt */ "passport-jwt");
 let JwtAccessStrategy = class JwtAccessStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy, 'jwt-access') {
     constructor() {
         super({
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: 'secret',
+            secretOrKey: config_1.CONFIG.JWT_ACCESS_SECRET,
             ignoreExpiration: false
         });
     }
@@ -2532,6 +2533,7 @@ const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const passport_1 = __webpack_require__(/*! @nestjs/passport */ "@nestjs/passport");
 const passport_jwt_1 = __webpack_require__(/*! passport-jwt */ "passport-jwt");
 const sessions_service_1 = __webpack_require__(/*! ../../../sessions/sessions.service */ "./apps/auth-microservice/src/entities/sessions/sessions.service.ts");
+const config_1 = __webpack_require__(/*! libs/common/src/config */ "./libs/common/src/config/index.ts");
 const enums_1 = __webpack_require__(/*! apps/auth-microservice/utils/enums */ "./apps/auth-microservice/utils/enums/index.ts");
 const RefreshCookieExtractor = (req) => {
     let token = null;
@@ -2544,13 +2546,12 @@ let JwtRefreshStrategy = class JwtRefreshStrategy extends (0, passport_1.Passpor
     constructor(sessionService) {
         super({
             jwtFromRequest: RefreshCookieExtractor,
-            secretOrKey: 'secret',
+            secretOrKey: config_1.CONFIG.JWT_REFRESH_SECRET,
             ignoreExpiration: false
         });
         this.sessionService = sessionService;
     }
     async validate(payload) {
-        console.log(payload);
         const session = await this.sessionService.validateSession({
             sessionID: payload.sessionID,
             expiresIn: payload.iat

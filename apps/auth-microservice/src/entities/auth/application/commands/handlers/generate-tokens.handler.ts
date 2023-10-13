@@ -27,7 +27,7 @@ export class GenerateTokensHandler implements ICommandHandler<GenerateTokensComm
 			this.jwtService.sign(
 				{ userID: dto.userID },
 				{
-					secret: 'secret',
+					secret: CONFIG.JWT_ACCESS_SECRET,
 					expiresIn: Number(CONFIG.JWT_ACCESS_EXPIRES)
 				}
 			)
@@ -38,7 +38,7 @@ export class GenerateTokensHandler implements ICommandHandler<GenerateTokensComm
 				sessionID: session.id
 			},
 			{
-				secret: 'secret',
+				secret: CONFIG.JWT_REFRESH_SECRET,
 				expiresIn: Number(CONFIG.JWT_REFRESH_EXPIRES)
 			}
 		)
