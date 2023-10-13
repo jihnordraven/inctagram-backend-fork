@@ -12,7 +12,7 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'jwt-access') 
 	constructor() {
 		super({
 			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-			secretOrKey: 'secret',
+			secretOrKey: CONFIG.JWT_ACCESS_SECRET,
 			ignoreExpiration: false
 		})
 	}
