@@ -147,9 +147,9 @@ export class AuthController {
 	public async logout(
 		@JwtRefreshPayloadDecorator() payload: JwtRefreshPayload,
 		@Res() res: Response
-	) {
+	): Promise<void> {
 		await this.commandBus.execute(new AUTH_COMMAND_IMPLS.LogoutCommand(payload))
-		res.cookie('refreshToken', '').send()
+		res.clearCookie('refreshToken')
 	}
 
 	@Get('me')
