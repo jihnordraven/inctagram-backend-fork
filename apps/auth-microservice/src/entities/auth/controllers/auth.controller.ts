@@ -149,8 +149,7 @@ export class AuthController {
 		@Res() res: Response
 	) {
 		await this.commandBus.execute(new AUTH_COMMAND_IMPLS.LogoutCommand(payload))
-		res.clearCookie(TokensEnum.REFRESH_TOKEN)
-		res.send()
+		res.clearCookie('refreshToken').send()
 	}
 
 	@Get('me')
