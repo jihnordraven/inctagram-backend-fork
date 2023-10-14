@@ -164,11 +164,11 @@ export class AuthController {
 	// helpers
 	private async setTokensToResponse(tokens: TokensType, res: Response): Promise<void> {
 		res.cookie(TokensEnum.REFRESH_TOKEN, tokens.refreshToken, {
-			// httpOnly: true,
-			// secure: true,
-			// expires: add(new Date(), {
-			// 	seconds: this.config.get<number>('JWT_REFRESH_EXPIRES')
-			// })
+			httpOnly: true,
+			secure: true,
+			expires: add(new Date(), {
+				seconds: this.config.get<number>('JWT_REFRESH_EXPIRES')
+			})
 		})
 		res.json({ accessToken: tokens.accessToken })
 	}
