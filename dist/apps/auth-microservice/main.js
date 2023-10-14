@@ -1687,7 +1687,7 @@ let AuthController = class AuthController {
     }
     async logout(payload, res) {
         await this.commandBus.execute(new impl_1.AUTH_COMMAND_IMPLS.LogoutCommand(payload));
-        res.clearCookie('refreshToken').send();
+        res.cookie('refreshToken', '').send();
     }
     async getMe({ userID }) {
         return this.authQueryRepository.getMe({ userID });
